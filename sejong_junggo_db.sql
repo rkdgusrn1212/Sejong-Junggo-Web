@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.11, for Win64 (x86_64)
 --
--- Host: localhost    Database: sejongjunggo
+-- Host: localhost    Database: sejong_junggo_db
 -- ------------------------------------------------------
 -- Server version	8.0.11
 
@@ -54,14 +54,13 @@ CREATE TABLE `item` (
   `item_price` bigint(20) unsigned NOT NULL,
   `item_method` varchar(255) NOT NULL,
   `item_state` char(1) NOT NULL,
-  `item_ask` varchar(255) NOT NULL,
   `asker_id` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`item_id`),
   KEY `owner_id` (`owner_id`),
   KEY `asker_id` (`asker_id`),
   CONSTRAINT `item_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `user` (`auth_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `item_ibfk_2` FOREIGN KEY (`asker_id`) REFERENCES `user` (`auth_id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,6 +69,7 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
+INSERT INTO `item` VALUES (3,'flight','dummyy1',NULL,'2018-05-20 18:34:35',4000,'만나서 직거래','S',NULL);
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +136,9 @@ CREATE TABLE `user` (
   `auth_provider` varchar(45) NOT NULL,
   `auth_id` varchar(255) NOT NULL,
   `user_id` varchar(45) NOT NULL,
-  PRIMARY KEY (`auth_id`)
+  `phone_num` varchar(11) DEFAULT NULL,
+  PRIMARY KEY (`auth_id`),
+  UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -146,6 +148,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES ('dummy_provider','dummyy1','dummyy1','09912341234');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -158,4 +161,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-19 15:39:21
+-- Dump completed on 2018-05-20 23:29:15
