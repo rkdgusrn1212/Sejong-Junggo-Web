@@ -17,14 +17,11 @@ router.get('/', function(req, res){
 	console.log(req.query);
 		var sql = 'SELECT item_id, item_name, item_price, owner_id, item_time, item_state FROM item';
 		if(req.query.item_name!=null){
-			sql+=' where item_name like %'+req.query.item_name+'%';
+			sql+=" where item_name like '%"+req.query.item_name+"%'";
 		}else if(req.query.item_id!=null){
 			sql+=' where item_id = '+req.query.item_id;
 		}else if(req.query.owner_id){
-			sql+=' where owner_id like %'+req.query.owner_id+'%';
-		}else{
-			res.status(400).send("no matched query parameter");
-			return;
+			sql+" where owner_id like '%"+req.query.owner_id+"%'";
 		}
 
 
