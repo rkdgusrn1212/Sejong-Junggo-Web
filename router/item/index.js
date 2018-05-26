@@ -22,7 +22,7 @@ router.get('/', function(req, res){
 			sql+='SELECT * FROM item where item_id = '+req.query.item_id;
 		}else{
 			sql+= 'SELECT item_id, item_name, item_price, owner_id, item_time, item_state FROM item';
-			if(req.query.item_name!=null){
+			if(req.query.item_name){
 				sql+=" where item_name like '%"+req.query.item_name+"%'";
 			}else if(req.query.owner_id){
 				sql+" where owner_id like '%"+req.query.owner_id+"%'";
@@ -40,19 +40,19 @@ router.get('/', function(req, res){
 			}
 
 			sql+=' limit '
-			if(req.query.start!=null){
+			if(req.query.start){
 				sql+=req.query.start;
 			}else{
 				sql+='0';
 			}
 
 			sql+=', ';
-			if(req.query.count!=null){
+			if(req.query.count){
 				sql+=req.query.count;
 			}else{
 				sql+='15';
 			};
-			}
+		}
 
 		db.query(sql, function(err, rows, fields){
 			if(err){
@@ -65,10 +65,27 @@ router.get('/', function(req, res){
 		});
 });
 
+
+//body:{owner_id}, initiate item posting.
 router.post('/', (req, res)=>{
 	var result;
 	console.log(req.body);
+	if(req.body.owner_id!=null){
+		var sql = "INSERT INTO item VALUES(NULL,'UNKNOWN', '"+req.body.owner_id+"', NULL, NOW(), 0, 'UNKNOWN', 'I', NULL)"
+		db.query(sql, (err, result)=>{
+			if(err){
+				console.log(err);
+				res.status(500).send("query failed");
+			}else{
+				res.send('success');
+			}
+		})
+	}else{
+		res.status(400).send("body validation error");
+	}
 });
+
+
 router.get('/name', function(req, res){
 	res.send('this is item name');
 });
