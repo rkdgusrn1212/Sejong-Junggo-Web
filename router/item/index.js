@@ -65,6 +65,10 @@ router.get('/', function(req, res){
 		});
 });
 
+router.post('/', (req, res)=>{
+	var result;
+	console.log(req.body);
+});
 router.get('/name', function(req, res){
 	res.send('this is item name');
 });

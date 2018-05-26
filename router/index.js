@@ -1,24 +1,9 @@
-/*
-item{
-  post
-  get:{
-    item_id, name, category_id category_name
-  put
-}
-category{
+var bodyParser = require('body-parser');
 
-}
-
-user{
-  get{
-    id
-  }
-  post
-  put
-}
-*/
 module.exports = function(app)
 {
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
   var user = require('./user');
   app.use('/user',user);
   var item = require('./item');
