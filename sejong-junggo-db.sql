@@ -60,7 +60,7 @@ CREATE TABLE `item` (
   KEY `asker_id` (`asker_id`),
   CONSTRAINT `item_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `user` (`auth_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `item_ibfk_2` FOREIGN KEY (`asker_id`) REFERENCES `user` (`auth_id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +69,7 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
-INSERT INTO `item` VALUES (3,'flight','dummyy1',NULL,'2018-05-20 18:34:35',4000,'만나서 직거래','S',NULL);
+INSERT INTO `item` VALUES (3,'pencil','dummyy1',NULL,'2018-05-26 18:11:16',4000,'만나서 직거래','S',NULL),(4,'UNKNOWN','dummyy1',NULL,'2018-05-26 16:31:29',0,'UNKNOWN','I',NULL),(5,'UNKNOWN','dummyy1',NULL,'2018-05-26 16:32:10',0,'UNKNOWN','I',NULL),(6,'UNKNOWN','dummyy1',NULL,'2018-05-26 16:32:55',0,'UNKNOWN','I',NULL),(7,'UNKNOWN','dummyy1',NULL,'2018-05-26 16:38:09',0,'UNKNOWN','I',NULL),(8,'UNKNOWN','dummyy1',NULL,'2018-05-26 16:38:42',0,'UNKNOWN','I',NULL);
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -107,10 +107,12 @@ DROP TABLE IF EXISTS `item_image`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `item_image` (
-  `item_image_id` int(11) NOT NULL AUTO_INCREMENT,
   `item_id` int(11) NOT NULL,
-  `itme_image_url` varchar(255) NOT NULL,
-  PRIMARY KEY (`item_image_id`),
+  `url` varchar(255) NOT NULL,
+  `thumb_url` varchar(255) NOT NULL,
+  `thumb_micro_url` varchar(255) NOT NULL,
+  `image_id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`image_id`),
   KEY `item_id` (`item_id`),
   CONSTRAINT `item_image_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -161,4 +163,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-20 23:29:15
+-- Dump completed on 2018-05-28  2:40:09

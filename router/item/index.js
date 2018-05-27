@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../../db-server');
-
 /*
 item get 쿼리 조건
 1. item_name을 포함하는 목록
@@ -104,7 +103,6 @@ router.post('/', (req, res)=>{
 		res.status(400).send("body validation failed");
 	}
 });
-
 //body에 업데이트될 컬럼들을 JSON형태로 전송, ex) body{"item_name"="면도기"}, 저장버튼을 누를때 호출되면 될 듯
 router.put('/:id', (req, res)=>{
 	var sql = "UPDATE item SET";
@@ -139,6 +137,17 @@ router.put('/:id', (req, res)=>{
 	}else{
 		res.status(400).send("body validation failed");
 	}
+});
+//item 삭제
+router.delete('/:id', (req, res)=>{
+	var sql = "DELETE FROM item WHERE item_id = '"+req.params.id+"'";
+	db.query(sql, (err, result)=>{
+		if(err){
+			res.status(500).send("query failed");
+		}else{
+			res.send('success');
+		}
+	});
 });
 
 module.exports = router;
