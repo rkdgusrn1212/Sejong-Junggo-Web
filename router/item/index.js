@@ -1,6 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../../db-server');
+const express = require('express');
+const router = express.Router();
+require('./image')(router);
+const db = require('../../db-server');
 /*
 item get 쿼리 조건
 1. item_name을 포함하는 목록
