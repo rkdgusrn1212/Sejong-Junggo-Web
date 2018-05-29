@@ -54,11 +54,19 @@ module.exports = (router)=>{
 
   //item의 image의 리스트를 불러온다. 각이미지는 id와 쿼리로 받은 속성값을 가진다. (thumb_url, thumb_micro_url, url)
   router.get('/:item_id/image',(req, res)=>{
+    var sql = "SELECT * FROM item_image WHERE item_id = "+req.params.item_id;
+    db.query(sql, (err, raws, fields)=>{
+      if(err){
+        res.status(500).send("query failed");
+      }else{
+        res.send(raws);
+      }
+    });
   });
 
   //item의 image_id의 쿼리매개변수로 받아온 해당 컬럼 값을 불러온다. (thumb_url, url_micro_url, url)
   router.get('/:item_id/image/:img_id',(req, res)=>{
-
+    
   });
 
   //해당 이미지의 컬럼을 수정한다.
