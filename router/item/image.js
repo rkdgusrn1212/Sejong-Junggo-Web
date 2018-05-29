@@ -14,8 +14,8 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage: storage, limits: { fileSize: 5 * 1024 * 1024 } }).single('img');
 const Thumbnail = require('thumbnail');
-const thumbnail = new Thumbnail(__dirname+'/../../uploads/item_images', __dirname+'/../../uploads/item_images/thumb');
-const microThumbnail = new Thumbnail(__dirname+'/../../uploads/item_images', __dirname+'/../../uploads/item_images/micro_thumb');
+const thumbnail = new Thumbnail(__dirname+'/../../uploads/item_images', __dirname+'/../../uploads/item_images/thumbs');
+const microThumbnail = new Thumbnail(__dirname+'/../../uploads/item_images', __dirname+'/../../uploads/item_images/micro_thumbs');
 
 module.exports = (router)=>{
   //item에 해당하는 이미지를 추가. 이미지를 서버에 업로드하고 반환된 url과 썸네일 url들을 본문에 포함하여 호출하여야한다.
@@ -66,7 +66,7 @@ module.exports = (router)=>{
 
   //item의 image_id의 쿼리매개변수로 받아온 해당 컬럼 값을 불러온다. (thumb_url, url_micro_url, url)
   router.get('/:item_id/image/:img_id',(req, res)=>{
-    
+
   });
 
   //해당 이미지의 컬럼을 수정한다.

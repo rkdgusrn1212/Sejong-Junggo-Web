@@ -100,7 +100,7 @@ router.post('/', (req, res)=>{
 //body에 업데이트될 컬럼들을 JSON형태로 전송, ex) body{"item_name"="면도기"}, 저장버튼을 누를때 호출되면 될 듯
 router.put('/:id', (req, res)=>{
 	if(req.body.item_state=='S'){
-		let sql = "UPDATE item SET item_state='S' WHERE item_name not null AND item_price not null AND item_method not null AND item_main_image not null AND item_id = '"+req.params.id+"'";
+		let sql = "UPDATE item SET item_time = NOW(), item_state='S' WHERE item_state<>'S' AND item_name not null AND item_price not null AND item_method not null AND item_main_image not null AND item_id = '"+req.params.id+"'";
 		db.query(sql, (err, raws, fields)=>{
 			if(err){
 				res.status(500).send("query failed");
@@ -109,7 +109,7 @@ router.put('/:id', (req, res)=>{
 			}
 		});
 	}else if(req.body.item_state=='D'){
-		let sql = "UPDATE item SET item_state='D' WHERE item_state = 'S'";
+		let sql = "UPDATE item SET item_time = NOW(), item_state='D' WHERE item_state = 'S'";
 		db.query(sql, (err, raws, fields)=>{
 			if(err){
 				res.status(500).send("query failed");
@@ -137,7 +137,7 @@ router.put('/:id', (req, res)=>{
 			validation = true;
 		}
 		if(Number.isInteger(req.body.item_main_image)){
-			sql+=" item_maing_image = '"+req.body.item_main_image+"',"
+			sql+=" item_main_image = '"+req.body.item_main_image+"',"
 			validation = true;
 		}
 		if(validation){
@@ -147,7 +147,7 @@ router.put('/:id', (req, res)=>{
 					console.log(err);
 					res.status(500).send("query failed");
 				}else{
-					res.send(result);
+					res.send("success");
 				}
 			});
 		}else{
