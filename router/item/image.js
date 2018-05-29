@@ -1,7 +1,21 @@
 const db = require('../../db-server');
 const multer = require('multer');
-// 기타 express 코드
-const upload = multer({ dest: 'uploads/item_images/', limits: { fileSize: 5 * 1024 * 1024 } }).single('img');
+const crypto = require('crypto');
+const mime = require('mime');
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/item_images/')
+  },
+  filename: function (req, file, cb) {
+    crypto.pseudoRandomBytes(16, function (err, raw) {
+      cb(null, raw.toString('hex') + Date.now() + '.' + mime.extension(file.mimetype));
+    });
+  }
+});
+const upload = multer({storage: storage, limits: { fileSize: 5 * 1024 * 1024 } }).single('img');
+const Thumbnail = require('thumbnail');
+const thumbnail = new Thumbnail(__dirname+'/../../uploads/item_images', __dirname+'/../../uploads/item_images/thumb');
+const microThumbnail = new Thumbnail(__dirname+'/../../uploads/item_images', __dirname+'/../../uploads/item_images/micro_thumb');
 
 module.exports = (router)=>{
   //item에 해당하는 이미지를 추가. 이미지를 서버에 업로드하고 반환된 url과 썸네일 url들을 본문에 포함하여 호출하여야한다.
@@ -12,10 +26,20 @@ module.exports = (router)=>{
         res.status(500).send("upload failed");
         return;
       }
+      thumbnail.ensureThumbnail(req.file.filename, 300, 300, function (err, filename) {
+        if(err){
+          console.log(err);
+        }
+      });
+      microThumbnail.ensureThumbnail(req.file.filename, 100, 100, function (err, filename) {
+        if(err){
+          console.log(err);
+        }
+      });
       /*썸네일 로직 구현 필요->graphicsImage 리눅스 설치 + thumbnail*/
       let url = 'uploads/item_images/'+req.file.filename;
       let thumbUrl = 'uploads/item_images/thumb'+req.file.filename;
-      let thumbMicroUrl = 'upload/item_images/thumbMicroUrl'+req.file.filename;
+      let thumbMicroUrl = 'upload/item_images/micro_thumb'+req.file.filename;
       let sql = "INSERT INTO item_image ( item_id, url, thumb_url, thumb_micro_url) VALUES ( "+req.params.item_id+", '"+url+"', '"+thumbUrl+"', '"+thumbMicroUrl+"')";
       db.query(sql, (err, result)=>{
         if(err){
