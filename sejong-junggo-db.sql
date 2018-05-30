@@ -59,8 +59,10 @@ CREATE TABLE `item` (
   PRIMARY KEY (`item_id`),
   KEY `owner_id` (`owner_id`),
   KEY `asker_id` (`asker_id`),
+  KEY `item_main_image` (`item_main_image`),
   CONSTRAINT `item_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `user` (`auth_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `item_ibfk_2` FOREIGN KEY (`asker_id`) REFERENCES `user` (`auth_id`) ON DELETE SET NULL ON UPDATE CASCADE
+  CONSTRAINT `item_ibfk_2` FOREIGN KEY (`asker_id`) REFERENCES `user` (`auth_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `item_ibfk_3` FOREIGN KEY (`item_main_image`) REFERENCES `item_image` (`image_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -70,7 +72,6 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
-INSERT INTO `item` VALUES (10,NULL,'test_auth_id_1',NULL,'2018-05-29 16:11:59',NULL,NULL,'M',NULL,NULL),(11,NULL,'test_auth_id_1',NULL,'2018-05-29 16:12:08',NULL,NULL,'M',NULL,NULL);
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,7 +117,7 @@ CREATE TABLE `item_image` (
   PRIMARY KEY (`image_id`),
   KEY `item_id` (`item_id`),
   CONSTRAINT `item_image_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,4 +165,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-29 16:19:10
+-- Dump completed on 2018-05-30 14:55:43
