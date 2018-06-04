@@ -104,7 +104,7 @@ module.exports = (router)=>{
             }
           });
         }else{
-          res.send("resource not exist");
+          res.status(400).send("resource not exist");
         }
       }
     });
