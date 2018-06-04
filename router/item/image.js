@@ -1,6 +1,7 @@
 const db = require('../../db-server');
 const multer = require('multer');
 const crypto = require('crypto');
+const fs = require('fs');
 const mime = require('mime');
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -57,6 +58,7 @@ module.exports = (router)=>{
     var sql = "SELECT * FROM item_image WHERE item_id = "+req.params.item_id;
     db.query(sql, (err, raws, fields)=>{
       if(err){
+        console.log(err);
         res.status(500).send("query failed");
       }else{
         res.send(raws);
@@ -64,19 +66,47 @@ module.exports = (router)=>{
     });
   });
 
-  //item의 image_id의 쿼리매개변수로 받아온 해당 컬럼 값을 불러온다. (thumb_url, url_micro_url, url)
-  router.get('/:item_id/image/:img_id',(req, res)=>{
-
-  });
-
-  //해당 이미지의 컬럼을 수정한다.
-  router.put('/:item_id/image/:img_id',(req, res)=>{
-
-  });
-
   //해당 아이템의 이미지를 삭제한다.
   //서버에 저장된 이미지와 썸네일 이미지들도 삭제하기위한 트리거 역활을 한다. 호출 후 반드시 해당 이미지 삭제.
   router.delete('/:item_id/image/:img_Id',()=>{
-
+    let sql = "SELECT FROM item_image WHERE item_id = "+req.params.item_id+" AND image_id = "+req.params.img_id;
+    db.query(sql, (err, rows, fields)=>{
+      if(err){
+        console.log(err)
+        res.status(500).send("query failed");
+      }else{
+        if(rows.length>0){
+          let url = rows[0].url;
+          let thumbUrl = rows[0].thumb_url;
+          let thumbMicroUrl = rows[0].thumb_micro_url;
+          fs.unlink(url, (err)=>{
+            if (err){
+              console.log(err);
+            }
+          });
+          fs.unlink(thumbUrl, (err)=>{
+            if (err){
+              console.log(err);
+            }
+          });
+          fs.unlink(thumbMicroUrl, (err)=>{
+            if (err){
+              console.log(err);
+            }
+          });
+          sql = "DELETE FROM item_image WHERE item_id = "+req.params.item_id+" AND image_id = "+req.params.img_Id;
+          db.query(sql, (err, result)=>{
+            if(err){
+              console.log(err);
+              res.status(500).send("query failed");
+            }else{
+              res.send("success");
+            }
+          });
+        }else{
+          res.send("resource not exist");
+        }
+      }
+    });
   });
 };
