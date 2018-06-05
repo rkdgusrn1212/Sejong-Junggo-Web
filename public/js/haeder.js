@@ -1,4 +1,4 @@
-var secret_config = require('../commons/secret');
+var secret_config = require('../../secret/kakao');
 passport.use(new KakaoStrategy({
     clientID: secret_config.federation.kakao.client_id,
     callbackURL: secret_config.federation.kakao.callback_url

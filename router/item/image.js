@@ -5,7 +5,7 @@ const fs = require('fs');
 const mime = require('mime');
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/item_images/')
+    cb(null, 'public/image/item/')
   },
   filename: function (req, file, cb) {
     crypto.pseudoRandomBytes(16, function (err, raw) {
@@ -15,8 +15,8 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage: storage, limits: { fileSize: 5 * 1024 * 1024 } }).single('img');
 const Thumbnail = require('thumbnail');
-const thumbnail = new Thumbnail(__dirname+'/../../uploads/item_images', __dirname+'/../../uploads/item_images/thumbs');
-const microThumbnail = new Thumbnail(__dirname+'/../../uploads/item_images', __dirname+'/../../uploads/item_images/micro_thumbs');
+const thumbnail = new Thumbnail(__dirname+'/../../public/image/item', __dirname+'/../../public/image/item/thumb');
+const microThumbnail = new Thumbnail(__dirname+'/../../public/image/item', __dirname+'/../../public/image/item/micro_thumb');
 
 module.exports = (router)=>{
   //item에 해당하는 이미지를 추가. 이미지를 서버에 업로드하고 반환된 url과 썸네일 url들을 본문에 포함하여 호출하여야한다.
@@ -38,9 +38,12 @@ module.exports = (router)=>{
         }
       });
       /*썸네일 로직 구현 필요->graphicsImage 리눅스 설치 + thumbnail*/
-      let url = 'uploads/item_images/'+req.file.filename;
-      let thumbUrl = 'uploads/item_images/thumb'+req.file.filename;
-      let thumbMicroUrl = 'upload/item_images/micro_thumb'+req.file.filename;
+      let url = 'image/item/'+req.file.filename;
+      let splitedName = (req.file.filename).split('.');
+      let exclusiveName = splitedName[0];
+      let extension = splitedName[1];
+      let thumbUrl = 'image/item/thumb/'+exclusiveName+"-300x300."+extension;
+      let thumbMicroUrl = 'image/item/micro_thumb/'+exclusiveName+"-100x100"+extension;
       let sql = "INSERT INTO item_image ( item_id, url, thumb_url, thumb_micro_url) VALUES ( "+req.params.item_id+", '"+url+"', '"+thumbUrl+"', '"+thumbMicroUrl+"')";
       db.query(sql, (err, result)=>{
         if(err){
@@ -79,6 +82,7 @@ module.exports = (router)=>{
           let url = rows[0].url;
           let thumbUrl = rows[0].thumb_url;
           let thumbMicroUrl = rows[0].thumb_micro_url;
+          console.log(url);
           fs.unlink(url, (err)=>{
             if (err){
               console.log(err);

@@ -9,3 +9,4 @@ app.engine('html', require('ejs').renderFile);
 var server = app.listen(8999, function(){
   console.log("server has started on port 8999")
 });
+app.use(express.static('public'));

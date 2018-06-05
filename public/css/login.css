@@ -1,0 +1,10 @@
+#login-panel{
+  margin: 0 auto;
+  width:560px;
+}
+.login-btn{
+  display:block;
+  margin: 0 auto;
+  width:400px;
+  height:65px;
+}
