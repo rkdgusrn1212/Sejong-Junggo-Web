@@ -1,0 +1,109 @@
+<% include header.html.ejs %>
+    <div id="edit-page-wrapper">
+      <div id="content">
+      <section>
+        <form>
+        <!--대표이미지-->
+        <div id="leaderIMGHolder">
+          <div>
+          대표이미지
+          </div>
+        </div>
+
+        <div id="inputData">
+          <table>
+            <tr>
+              <td><label class="mylabel" for="name">상품이름:</label></td>
+              <td><input class="myInputText" id="name" type="text" name="itemName" autocomplete="off"></td>
+            </tr>
+            <tr>
+              <td><label class="mylabel" for="category">카테고리:</label></td>
+              <td><input class="myInputText" id="category" type="text" name="itemCategoty" autocomplete="off"></td>
+            </tr>
+            <tr>
+              <td><label class="mylabel" for="price">상품가격:</label></td>
+              <td><input class="myInputText" id="price" type="text" name="itemPrice" autocomplete="off"></td>
+            </tr>
+            <tr>
+              <td><label class="mylabel" for="trade">거래방식:</label></td>
+              <td><input class="myInputText" id="trade" type="text" name="itemTrade" autocomplete="off"></td>
+            </tr>
+            <tr>
+              <td><label class="mylabel" for="phone" >연락처:</label></td>
+              <td><input class="myInputText" id="phone" type="text" name="itemPhone" autocomplete="off"></td>
+            </tr>
+          </table>
+        </div>
+
+        <div id="productIMGs" onwheel="scrollControl(event)">
+          <div class="myholder"></div>
+        </div>
+        <div id="uploadButton">
+          <button id="imageButton" type="button" name="button">이미지<br/>올리기</button>
+          <input type="file" id="upload" title=" " name="image">
+        </div>
+
+          <textarea id="textArea" name="itemExp" rows="8" cols="100">상세 설명 입력</textarea>
+
+
+         <input id="submitButton" type="submit" name="" value="등록하기" >
+        </form>
+      </section>
+      </div>
+    </div>
+
+    <script>
+    var itemId = <%= id %>;
+    var ownerId = <%- JSON.stringify(user.auth_id) %>;
+    if(itemId===-1){
+      $.post( "item", {
+        owner_id: ownerId,
+      }, (data)=>{
+        alert(data);
+      });
+    }
+    function scrollControl(event) {
+      var xpos = event.deltaY;
+      var itemIMGs = document.getElementById('productIMGs');
+      itemIMGs.scrollLeft=itemIMGs.scrollLeft+xpos;
+    }
+    </script>
+
+    <script>
+    var imgCount=0;
+    var product = document.getElementById('productIMGs');
+    var upload = document.getElementById('upload'),
+        holder = document.getElementsByClassName('myholder');
+    upload.onchange = function (e) {
+      e.preventDefault();
+      var file = upload.files[0],
+        reader = new FileReader();
+        var node = document.createElement("Div");
+        node.className="myholder";
+        product.appendChild(node);
+          reader.onload = function (event) {
+            var img = new Image();
+            img.src = event.target.result;
+            img.height = 60;
+            img.width = 90;
+            img.addEventListener('click',changeLeaderIMG);
+            holder[imgCount].innerHTML = '';
+            holder[imgCount].appendChild(img);
+            imgCount = imgCount+1;
+        };
+      reader.readAsDataURL(file);
+      return false;
+    };
+    </script>
+    <script>
+      function changeLeaderIMG(e) {
+        var Leaderholder = document.getElementById('leaderIMGHolder');
+        var img = new Image();
+        img.src = e.target.src;
+        img.height = 220;
+        img.width = 330;
+        Leaderholder.innerHTML = '';
+        Leaderholder.appendChild(img);
+      }
+    </script>
+<% include footer.html.ejs %>

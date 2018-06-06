@@ -9,6 +9,10 @@
   <link rel="stylesheet" type="text/css" href="/css/component.css">
   <link rel="stylesheet" type="text/css" href="/css/login.css">
   <link rel="stylesheet" type="text/css" href="/css/signup.css">
+  <link rel="stylesheet" href="/css/search.css">
+  <link rel="stylesheet" href="/css/post.css">
+  <link rel="stylesheet" href="/css/edit.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
 <body>
   <div id=page-wrapper>
@@ -24,26 +28,26 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">세종 중고장터</a>
+            <a class="navbar-brand" href="/">세종 중고장터</a>
           </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-          <form class="navbar-form navbar-left" role="search">
+          <form class="navbar-form navbar-left" role="search" method="get" action="/search">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Search">
+              <input type="text" name="item_name" class="form-control" placeholder="Search" required>
             </div>
             <button type="submit" class="btn btn-default">Submit</button>
           </form>
 
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">내 판매 목록</a></li>
-              <li><a href="#">내 거래 신청 목록</a></li>
-              <li><a href="#">내 판매 목록</a></li>
               <% if( !login ){ %>
                 <li><a href="/login">로그인</a></li>
               <% }else{ %>
+                <li><a href="/edit">상품 등록</a></li>
+                <li><a href="#">내 판매 목록</a></li>
+                <li><a href="#">내 거래 신청 목록</a></li>
                 <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><%= user.user_id %><span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">

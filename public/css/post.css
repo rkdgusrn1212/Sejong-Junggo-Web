@@ -1,0 +1,148 @@
+#post-page-wrapper{
+  width:960px;
+  background: white;
+  margin: 20px auto; padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+}
+#post-page-wrapper * {
+    margin: 0;
+    padding: 0;
+    box-sizing: unset;
+}
+#post-page-wrapper .input{
+  float: left;
+  height: 26px;
+  padding: 3.5px;
+}
+#post-page-wrapper .input-search{
+  display: block;
+  float: left;
+  height: 22px;
+}
+#post-page-wrapper .input-search-submit{
+  display: block;
+  float: left;
+  margin-left: -2px;
+  height: 26px;
+}
+#post-page-wrapper .menu{
+  float: right;
+}
+#post-page-wrapper .menu-title{
+  float: left;
+  height: 33px;
+}
+#post-page-wrapper li{
+  list-style: none;
+}
+#post-page-wrapper nav ul li>a{
+  display: block;
+  text-decoration: none;
+  height: 23px;
+  border-left: 1px solid black;
+  padding: 5px 10px;
+  color: black;
+}
+#post-page-wrapper #content{
+  padding: 20px 10px;
+  border: 1px solid black;
+  overflow-y: scroll;
+  height: 650px;
+}
+
+#post-page-wrapper #leaderIMG{
+  width: 330px;
+  height: 220px;
+  border: 1px solid rgb(128, 128, 128);
+  float: left;
+  padding: 5px 0;
+  background-color: rgb(217, 217, 217);
+}
+#post-page-wrapper #productInfo{
+  margin-left: 10px;
+  width: 300px;
+  height: 110px;
+  float: left;
+}
+#post-page-wrapper table{
+  width: 300px;
+  height: 110px;
+  table-layout: fixed;
+}
+#post-page-wrapper #productInfo tr{
+  width: 300px;
+
+}
+#post-page-wrapper #productInfo tr>td:nth-child(1){
+width: 68px;
+padding: 2px 2px;
+}
+#post-page-wrapper #productInfo tr>td:nth-child(2){
+width: 220px;
+padding: 2px 0;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+.infoID{
+  padding: 0 5px;
+  color: gray;
+}
+#post-page-wrapper #price{
+  height: 70px;
+  width: 229px;
+  margin-left: 10px;
+  color: gray;
+  float: left;
+}
+#post-page-wrapper #buyButton{
+  margin-left: 10px;
+  width: 229px;
+  height: 40px;
+  background-color:  rgb(255, 204, 0);
+  border: 0;
+  color: white;
+  cursor: pointer;
+}
+#post-page-wrapper #content{
+  padding: 20px 10px;
+  border: 1px solid black;
+ overflow: hidden;
+}
+#post-page-wrapper #productIMGs{
+  margin-left: 10px;
+  margin-top: 20px;
+  margin-bottom: 9px;
+  padding: 5px;
+  border: 1px solid black;
+  width: 527px;
+  height: 81px;
+  float: left;
+  white-space: nowrap;
+  overflow-x: scroll;
+}
+#post-page-wrapper #productIMGs img{
+  height: 60px;
+  width: 90px;
+  cursor: pointer;
+}
+
+#post-page-wrapper #explain{
+  float: left;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 10px 0;
+}
+#post-page-wrapper #buttons{
+  float: right;
+}
+#post-page-wrapper #editButton{
+  float: left;
+}
+#post-page-wrapper #removeButton{
+  float: left;
+  margin-left: 10px;
+}

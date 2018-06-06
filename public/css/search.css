@@ -1,0 +1,132 @@
+
+#search-page-wrapper{
+  width:960px;
+  background: white;
+  margin: 20px auto; padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+}
+#search-page-wrapper * {
+    margin: 0;
+    padding: 0;
+    box-sizing: unset;
+}
+
+#search-page-wrapper .input{
+  float: left;
+  height: 26px;
+  padding: 3.5px;
+}
+#search-page-wrapper .input-search{
+  display: block;
+  float: left;
+  height: 22px;
+}
+#search-page-wrapper .input-search-submit{
+  display: block;
+  float: left;
+  margin-left: -2px;
+  height: 26px;
+}
+#search-page-wrapper .menu{
+  float: right;
+}
+#search-page-wrapper .menu-title{
+  float: left;
+  height: 33px;
+}
+#search-page-wrapper li{
+  list-style: none;
+}
+#search-page-wrappernav ul li>a{
+
+  display: block;
+  text-decoration: none;
+  height: 23px;
+  border-left: 1px solid black;
+  padding: 5px 10px;
+  color: black;
+}
+
+#search-page-wrapper #content{
+  padding: 20px 10px;
+  border: 1px solid black;
+  overflow: hidden;
+}
+#search-page-wrapper #sort{
+  float: left;
+}
+#search-page-wrapper .sortItem{
+  float: left;
+  padding: 0 5px;
+  cursor: pointer;
+}
+#search-page-wrapper .sortItem:nth-child(1){
+  border-right: 1px solid black;
+}
+#search-page-wrapper .sortItem:nth-child(2){
+  border-right: 1px solid black;
+}
+#search-page-wrapper .sortItem:nth-child(3){
+  border-right: 1px solid black;
+}
+#search-page-wrapper #filter{
+  float: right;
+}
+#search-page-wrapper .filterItem{
+  float: left;
+  padding: 0 5px;
+  cursor: pointer;
+}
+#search-page-wrapper .filterItem:nth-child(1){
+  border-right: 1px solid black;
+}
+#search-page-wrapper .filterItem:nth-child(2){
+  border-right: 1px solid black;
+}
+
+#search-page-wrapper #articleSection{
+  float: left;
+  margin-top: 10px;
+  padding: 20px 10px;
+  width: 876px;
+  border: 1px solid black;
+}
+#search-page-wrapper .article{
+  float: left;
+  margin-right: 33px;
+  margin-bottom: 10px;
+}
+#search-page-wrapper .article:nth-child(3n){
+  margin-right: 0px;;
+}
+#search-page-wrapper .articleIMG{
+  width: 270px;
+  height: 180px;
+}
+#search-page-wrapper .articleIMG img{
+  width: 270px;
+  height: 180px;
+}
+#search-page-wrapper .itemInfo{
+  overflow: hidden;
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+#search-page-wrapper .itemName{
+  float: left;
+  padding: 5px 10px;
+}
+#search-page-wrapper .itemPrice{
+  float: right;
+  padding: 5px 10px;
+}
+#search-page-wrapper .itemUser{
+  float: left;
+  padding: 5px 10px;
+}
+#search-page-wrapper .itemDate{
+  float: right;
+  padding: 5px 10px;
+}

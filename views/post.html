@@ -1,0 +1,84 @@
+<% include header.html.ejs %>
+    <div id="post-page-wrapper">
+      <div id="content">
+      <section>
+        <!--대표이미지-->
+        <div id="leaderIMG">
+        <div id="leaderIMGHolder">대표이미지</div>
+        </div>
+
+        <div id="productInfo">
+          <table>
+            <tr>
+              <td class="infoID">상품이름: </td>
+              <td>아이패드</td>
+            </tr>
+            <tr>
+              <td class="infoID">카테고리: </td>
+              <td>디지털/가전</td>
+            </tr>
+            <tr>
+              <td class="infoID">거래방식: </td>
+              <td>직거래</td>
+            </tr>
+            <tr>
+              <td class="infoID">연락처: </td>
+              <td>010-0000-0000</td>
+            </tr>
+          </table>
+        </div>
+
+        <div id="price">
+          가격:
+        </div>
+        <button id="buyButton" type="button" name="buyButton">구매하기</button>
+
+
+        <div id="productIMGs" onwheel="scrollControl(event)">
+          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="C:\Users\twan\Desktop\태완\사진\102_0116\IMG_0030.JPG">
+          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="C:\Users\twan\Desktop\태완\사진\102_0116\IMG_0031.JPG">
+          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="C:\Users\twan\Desktop\태완\사진\102_0116\IMG_0032.JPG">
+          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="C:\Users\twan\Desktop\태완\사진\102_0116\IMG_0037.JPG">
+          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="C:\Users\twan\Desktop\태완\사진\102_0116\IMG_0039.JPG">
+          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="C:\Users\twan\Desktop\태완\사진\102_0116\IMG_0040.JPG">
+          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="C:\Users\twan\Desktop\태완\사진\102_0116\IMG_0042.JPG">
+        </div>
+
+        <div id="explain">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
+        <div id="buttons">
+          <button id="editButton" type="button" name="button">편집하기</button>
+          <button id="removeButton" type="button" name="button">삭제하기</button>
+        </div>
+      </section>
+      </div>
+    </div>
+
+    <script>
+    function scrollControl(event) {
+      var xpos = event.deltaY;
+      var itemIMGs = document.getElementById('productIMGs');
+      itemIMGs.scrollLeft=itemIMGs.scrollLeft+xpos;
+    }
+    function newIMG(data) {
+      var newWindow = window.open('','image','width=900,height=600');
+      newWindow.location.href=data;
+    }
+    function gotoLeader(data) {
+      var Leaderholder = document.get
+      var Leaderholder = document.getElementById('leaderIMGHolder');
+      var img=new Image();
+      img.src=data;
+      img.height = 220;
+      img.width = 330;
+      Leaderholder.innerHTML = '';
+      Leaderholder.appendChild(img);
+    }
+    </script>
+<% include footer.html.ejs %>
