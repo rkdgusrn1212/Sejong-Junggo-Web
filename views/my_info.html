@@ -1,0 +1,47 @@
+<% include header.html.ejs %>
+<section class="container">
+  <div class=" col-sm-8 col-sm-offset-2">
+    <div class="panel panel-default">
+      <div class="panel-heading">내 정보 관리</div>
+      <div class="panel-body" class="container">
+        <div class="row">
+          <form class="col-sm-8 col-sm-offset-2">
+              <label for="nickname">닉네임</label>
+              <input id="nickname" type="text" class="form-control myinfo-feild" name="user_id" placeholder="닉네임" value=<%- '"'+user.user_id+'"' %> required autofocus autocomplete="off">
+              <label for="phone">전화번호</label>
+              <input id="phone" type="text" class="form-control myinfo-feild" name="phone_num" placeholder="전화번호" required autocomplete="off">
+              <button id="update" class="btn btn-lg btn-primary btn-block" type="button">업데이트</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  $.get( "user", (data)=>{
+    var phone = data[0].phone_num;
+    if(phone!=null){
+      document.getElementById('phone').value = phone;
+    }
+  });
+  $('#update').on('click', function () {
+         $.ajax({
+             url: 'user',
+             type:'put',
+             data: {
+                 user_id: $("#nickname").val(),
+                 phone_num: $("#phone").val()
+             },
+             dataType : 'json',
+             success : function (data){
+               location.reload();
+             },
+             error: function(data){
+               alert("업데이트 실패");
+             }
+         });
+    });
+</script>
+
+<% include footer.html.ejs %>

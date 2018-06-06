@@ -24,9 +24,9 @@ module.exports = function(app){
   app.use('/item', item);
   app.get('/',function(req, res){
     if(req.session.passport==null||req.session.passport.user==null){
-      res.render('index.html',{login:false});
+      res.render('main.html',{login:false, page:'main'});
     }else{
-      res.render('index.html',{login:true, user:req.session.passport.user});
+      res.render('main.html',{login:true, user:req.session.passport.user, page:'main'});
     }
   });
   app.get('/edit/:id',(req,res)=>{
@@ -35,7 +35,7 @@ module.exports = function(app){
     }else{
       if(req.session.passport.user.signup){
         if(Number.isInteger(id)){
-          res.render('edit.html',{login:true, user:req.session.passport.user, id:req.params.id});
+          res.render('edit.html',{login:true, user:req.session.passport.user, id:req.params.id, page:'edit'});
         }else{
           res.status(400).send("invalid url");
         }
@@ -49,7 +49,7 @@ module.exports = function(app){
       res.redirect('/login');
     }else{
       if(req.session.passport.user.signup){
-        res.render('edit.html',{login:true, user:req.session.passport.user, id:-1});
+        res.render('edit.html',{login:true, user:req.session.passport.user, id:-1, page:'edit'});
       }else{
         res.redirect('/login/signup');
       }
@@ -57,17 +57,46 @@ module.exports = function(app){
   });
   app.get('/search',(req, res)=>{
     if(req.session.passport==null||req.session.passport.user==null){
-      res.render('search.html',{login:false});
+      res.render('search.html',{login:false, page:'search'});
     }else{
-      res.render('search.html',{login:true, user:req.session.passport.user});
+      res.render('search.html',{login:true, user:req.session.passport.user, page:'search'});
     }
   });
   app.get('/post',(req, res)=>{
     if(req.session.passport==null||req.session.passport.user==null){
+        res.render('post.html',{login:false, page:'post'});
+    }else{
+      res.render('post.html',{login:true, user:req.session.passport.user, page:'post'});
+    }
+  });
+  app.get('/my_items',(req, res)=>{
+    if(req.session.passport==null||req.session.passport.user==null){
       res.redirect('/login');
     }else{
       if(req.session.passport.user.signup){
-        res.render('post.html',{login:true, user:req.session.passport.user});
+        res.render('my_items.html',{login:true, user:req.session.passport.user, page:'my_items'});
+      }else{
+        res.redirect('/login/signup');
+      }
+    }
+  });
+  app.get('/my_requests',(req, res)=>{
+    if(req.session.passport==null||req.session.passport.user==null){
+      res.redirect('/login');
+    }else{
+      if(req.session.passport.user.signup){
+        res.render('my_requests.html',{login:true, user:req.session.passport.user, page:'my_requests'});
+      }else{
+        res.redirect('/login/signup');
+      }
+    }
+  });
+  app.get('/my_info',(req, res)=>{
+    if(req.session.passport==null||req.session.passport.user==null){
+      res.redirect('/login');
+    }else{
+      if(req.session.passport.user.signup){
+        res.render('my_info.html',{login:true, user:req.session.passport.user, page:'my_info'});
       }else{
         res.redirect('/login/signup');
       }

@@ -1,0 +1,40 @@
+#main-page-wrapper{
+
+}
+#main-page-wrapper a:hover{
+	text-decoration: none;
+}
+
+#main-page-wrapper .item-thumbnail{
+	width: 100%;
+}
+
+#main-page-wrapper .span4-inner .desc{
+	padding: 0 10px 10px 10px;
+}
+#main-page-wrapper .span4-inner .item-name{
+	font-size: 16px;
+	color: #444;
+	display: block;
+}
+
+#main-page-wrapper .span4-inner .item-price{
+	font-size: 14px;
+	color: red;
+	display: block;
+	margin-top: 10px;
+}
+
+#main-page-wrapper .span4-inner .selling-info{
+	text-align: right;
+}
+
+#main-page-wrapper .seller-name,
+#main-page-wrapper .reg-datetime{
+	font-size: 14px;
+	color: #666;
+}
+
+#main-page-wrapper .my-req-list{
+	border-bottom: 1px solid #999;
+}

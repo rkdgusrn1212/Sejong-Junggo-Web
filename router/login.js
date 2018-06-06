@@ -85,7 +85,7 @@ passport.use(new KakaoStrategy({
 
 
 router.get('/',isNotAuthenticated,(req, res)=>{
-  res.render('login.html',{login:false});
+  res.render('login.html',{login:false, page:'login'});
 });
 // kakao 로그인
 router.get('/kakao',
@@ -111,7 +111,7 @@ router.get('/signup', isAuthenticated, function (req, res) {
   }else{
     res.render('signup.html', {login:true,
       user: req.session.passport.user
-    })
+    , page:'signup'})
   }
 })
 
