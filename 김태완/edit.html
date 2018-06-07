@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>edit</title>
+
+    <link rel="stylesheet" href="editStyle.css">
+
+
+  </head>
+  <body>
+    <div id="page-wrapper">
+      <!--로고 부분-->
+      <header>
+        <div id="logo">
+          <img src="http://placehold.it/920x200">
+        </div>
+        <nav id="navigation"><!--네비게이션-->
+          <div class="input">
+          <form>
+            <input class="input-search" type="text">
+            <input class="input-search-submit" type="submit" >
+          </form>
+          </div>
+          <div class="menu">
+          <ul>
+            <li class="menu-title"><a href="#">내 판매목록</a></li>
+            <li class="menu-title"><a href="#">내 거래신청 목록</a></li>
+            <li class="menu-title"><a href="#">로그아웃</a></li>
+          </ul>
+        </div>
+        </nav>
+      </header>
+
+      <div id="content">
+      <section>
+        <form>
+        <!--대표이미지-->
+        <div id="leaderIMGHolder">
+          <div>
+          대표이미지
+          </div>
+        </div>
+
+        <div id="inputData">
+          <table>
+            <tr>
+              <td><label class="label" for="name">상품이름:</label></td>
+              <td><input class="inputText" id="name" type="text" name="itemName" autocomplete="off"></td>
+            </tr>
+            <tr>
+              <td><label class="label" for="category">카테고리:</label></td>
+              <td><input class="inputText" id="category" type="text" name="itemCategoty" autocomplete="off"></td>
+            </tr>
+            <tr>
+              <td><label class="label" for="price">상품가격:</label></td>
+              <td><input class="inputText" id="price" type="text" name="itemPrice" autocomplete="off"></td>
+            </tr>
+            <tr>
+              <td><label class="label" for="trade">거래방식:</label></td>
+              <td><input class="inputText" id="trade" type="text" name="itemTrade" autocomplete="off"></td>
+            </tr>
+            <tr>
+              <td><label class="label" for="phone" >연락처:</label></td>
+              <td><input class="inputText" id="phone" type="text" name="itemPhone" autocomplete="off"></td>
+            </tr>
+          </table>
+        </div>
+
+        <div id="productIMGs" onwheel="scrollControl(event)">
+          <div class="holder"></div>
+        </div>
+        <div id="uploadButton">
+          <button id="imageButton" class="btn btn-secondary" type="button" name="button">이미지<br/>올리기</button>
+          <input type="file" id="upload" title=" " name="itemIMG">
+        </div>
+
+          <textarea id="textArea" name="itemExp" rows="8" cols="100">상세 설명 입력</textarea>
+
+
+         <input id="submitButton" type="submit" name="" value="등록하기" >
+        </form>
+      </section>
+      </div>
+    </div>
+
+    <script>
+    function scrollControl(event) {
+      var xpos = event.deltaY;
+      var itemIMGs = document.getElementById('productIMGs');
+      itemIMGs.scrollLeft=itemIMGs.scrollLeft+xpos;
+    }
+    </script>
+
+    <script>
+    var imgCount=0;
+    var product = document.getElementById('productIMGs');
+    var upload = document.getElementById('upload'),
+        holder = document.getElementsByClassName('holder');
+    upload.onchange = function (e) {
+      e.preventDefault();
+      var file = upload.files[0],
+        reader = new FileReader();
+        var node = document.createElement("Div");
+        node.className="holder";
+        product.appendChild(node);
+          reader.onload = function (event) {
+            var img = new Image();
+            img.src = event.target.result;
+            img.height = 60;
+            img.width = 90;
+            img.addEventListener('click',changeLeaderIMG);
+            holder[imgCount].innerHTML = '';
+            holder[imgCount].appendChild(img);
+            imgCount = imgCount+1;
+        };
+      reader.readAsDataURL(file);
+      return false;
+    };
+    </script>
+    <script>
+      function changeLeaderIMG(e) {
+        var Leaderholder = document.getElementById('leaderIMGHolder');
+        var img = new Image();
+        img.src = e.target.src;
+        img.height = 220;
+        img.width = 330;
+        Leaderholder.innerHTML = '';
+        Leaderholder.appendChild(img);
+      }
+    </script>
+
+  </body>
+</html>

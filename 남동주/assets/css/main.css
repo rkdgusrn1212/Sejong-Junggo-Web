@@ -1,0 +1,39 @@
+@charset 'utf8';
+
+a:hover{
+	text-decoration: none;
+}
+
+.item-thumbnail{
+	width: 100%;
+}
+
+.span4-inner .desc{
+	padding: 0 10px 10px 10px;
+}
+.span4-inner .item-name{
+	font-size: 16px;
+	color: #444;
+	display: block;
+}
+
+.span4-inner .item-price{
+	font-size: 14px;
+	color: red;
+	display: block;
+	margin-top: 10px;
+}
+
+.span4-inner .selling-info{
+	text-align: right;
+}
+
+.seller-name,
+.reg-datetime{
+	font-size: 14px;
+	color: #666;
+}
+
+.my-req-list{
+	border-bottom: 1px solid #999;
+}

@@ -1,5 +1,37 @@
-<% include header.html.ejs %>
-    <div id="post-page-wrapper">
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>item</title>
+    <link rel="stylesheet" href="itemStyle.css">
+    <script>
+
+    </script>
+  </head>
+  <body>
+    <div id="page-wrapper">
+
+      <header><!--로고 부분-->
+        <div id="logo">
+          <img src="http://placehold.it/920x200" />
+        </div>
+        <nav id="navigation"><!--네비게이션-->
+          <div class="input">
+          <form>
+            <input class="input-search" type="text">
+            <input class="input-search-submit" type="submit">
+          </form>
+          </div>
+          <div class="menu">
+          <ul>
+            <li class="menu-title"><a href="#">내 판매목록</a></li>
+            <li class="menu-title"><a href="#">내 거래신청 목록</a></li>
+            <li class="menu-title"><a href="#">로그아웃</a></li>
+          </ul>
+        </div>
+        </nav>
+      </header>
+
       <div id="content">
       <section>
         <!--대표이미지-->
@@ -19,7 +51,7 @@
             </tr>
             <tr>
               <td class="infoID">거래방식: </td>
-              <td>직거래 : 서울에서만 가능</td>
+              <td>직거래</td>
             </tr>
             <tr>
               <td class="infoID">연락처: </td>
@@ -29,19 +61,19 @@
         </div>
 
         <div id="price">
-          가격: <h4>499900원</h4> <i>시세가(455000원)</i>
+          가격:
         </div>
         <button id="buyButton" type="button" name="buyButton">구매하기</button>
 
 
         <div id="productIMGs" onwheel="scrollControl(event)">
-          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="http://files.idg.co.kr/itworld/image/2015/09/ipad-mini-4-gold-100613749-medium.png">
-          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="http://files.idg.co.kr/itworld/image/2015/09/ipad-mini-4-gold-100613749-medium.png">
-          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="http://files.idg.co.kr/itworld/image/2015/09/ipad-mini-4-gold-100613749-medium.png">
-          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="http://files.idg.co.kr/itworld/image/2015/09/ipad-mini-4-gold-100613749-medium.png">
-          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="http://files.idg.co.kr/itworld/image/2015/09/ipad-mini-4-gold-100613749-medium.png">
-          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="http://files.idg.co.kr/itworld/image/2015/09/ipad-mini-4-gold-100613749-medium.png">
-          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="http://files.idg.co.kr/itworld/image/2015/09/ipad-mini-4-gold-100613749-medium.png">
+          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="C:\Users\twan\Desktop\태완\사진\102_0116\IMG_0030.JPG">
+          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="C:\Users\twan\Desktop\태완\사진\102_0116\IMG_0031.JPG">
+          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="C:\Users\twan\Desktop\태완\사진\102_0116\IMG_0032.JPG">
+          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="C:\Users\twan\Desktop\태완\사진\102_0116\IMG_0037.JPG">
+          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="C:\Users\twan\Desktop\태완\사진\102_0116\IMG_0039.JPG">
+          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="C:\Users\twan\Desktop\태완\사진\102_0116\IMG_0040.JPG">
+          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="C:\Users\twan\Desktop\태완\사진\102_0116\IMG_0042.JPG">
         </div>
 
         <div id="explain">
@@ -81,4 +113,5 @@
       Leaderholder.appendChild(img);
     }
     </script>
-<% include footer.html.ejs %>
+  </body>
+</html>
