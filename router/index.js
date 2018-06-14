@@ -30,29 +30,39 @@ module.exports = function(app){
     }
   });
   app.get('/edit/:id',(req,res)=>{
-    if(req.session.passport==null||req.session.passport.user==null){
-      res.redirect('/login');
-    }else{
-      if(req.session.passport.user.signup){
+    if(req.isAuthenticated()){
+      //로그인됨.
+      if(req.user.signup){
+        //필수정보 등록됨.
         if(Number.isInteger(id)){
+          //url 파라미터가 정수.
           res.render('edit.html',{login:true, user:req.session.passport.user, id:req.params.id, page:'edit'});
         }else{
-          res.status(400).send("invalid url");
+          //잘못된 url 파라미터.
+          res.status(400).send("INVALID_URL");
         }
       }else{
+        //필수정보 미등록.
         res.redirect('/login/signup');
       }
+    }else{
+      //로그인 안됨.
+      res.redirect('/login');
     }
   });
   app.get('/edit',(req, res)=>{
-    if(req.session.passport==null||req.session.passport.user==null){
-      res.redirect('/login');
-    }else{
-      if(req.session.passport.user.signup){
-        res.render('edit.html',{login:true, user:req.session.passport.user, id:-1, page:'edit'});
+    if(req.isAuthenticated()){
+      //로그인 됨.
+      if(req.user.signup){
+        //필수정보 입력됨.
+        res.render('edit.html',{login:true, user:req.user, id:-1, page:'edit'});
       }else{
+        //필수정보 미등록.
         res.redirect('/login/signup');
       }
+    }else{
+      //로그인 안됨.
+      res.redirect('/login');
     }
   });
   app.get('/search',(req, res)=>{
@@ -92,14 +102,14 @@ module.exports = function(app){
     }
   });
   app.get('/my_info',(req, res)=>{
-    if(req.session.passport==null||req.session.passport.user==null){
-      res.redirect('/login');
-    }else{
-      if(req.session.passport.user.signup){
-        res.render('my_info.html',{login:true, user:req.session.passport.user, page:'my_info'});
+    if(req.isAuthenticated()){
+      if(req.user.signup){
+        res.render('my_info.html',{login:true, user:req.user, page:'my_info'});
       }else{
         res.redirect('/login/signup');
       }
+    }else{
+      res.redirect('/login');
     }
   });
 };

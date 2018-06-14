@@ -37,11 +37,11 @@
 
             <ul class="nav navbar-nav navbar-right">
               <% if( !login ){ %>
-                <li><a href="/login">로그인</a></li>
+                <li <% if(page==='login'){ %>class="active"<% } %>><a href="/login">로그인</a></li>
               <% }else{ %>
-                <li><a href="/edit">상품 등록</a></li>
-                <li><a href="/my_items">내 판매 목록</a></li>
-                <li><a href="/my_requests">내 거래 신청 목록</a></li>
+                <li <% if(page==='edit'){ %>class="active"<% } %>><a href="/edit">상품 등록</a></li>
+                <li <% if(page==='my_items'){ %>class="active"<% } %>><a href="/my_items">내 판매 목록</a></li>
+                <li <% if(page==='my_requests'){ %>class="active"<% } %>><a href="/my_requests">내 거래 신청 목록</a></li>
                 <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><%= user.user_id %><span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">

@@ -53,23 +53,31 @@
     </div>
 
     <script>
+    //edit페이지에서 수정하고자 하는 item의 id.
     var itemId = <%= id %>;
+    //edit페이지에서 수정하고자 하는 item의 owner_id.
     var ownerId = <%- JSON.stringify(user.auth_id) %>;
+
+    //itemId가 -1일때는 대상 아이템이 없으므로 post: item으로 새로 생성.
     if(itemId===-1){
       $.post( "item", {
-        owner_id: ownerId,
-      }, (data)=>{
-        alert(data);
+        ownerid: ownerId,
+      }).done((data)=>{
+        //성공적으로 생성이 완료 되었으므로 itemId 갱신.
+        itemId = data.item_id;
+      }).fail((data)=>{
+        alert(data.responseText);
+        //생성에 실패하였으므로 redirect
+        window.location.replace('/');
       });
     }
+
+
     function scrollControl(event) {
       var xpos = event.deltaY;
       var itemIMGs = document.getElementById('productIMGs');
       itemIMGs.scrollLeft=itemIMGs.scrollLeft+xpos;
     }
-    </script>
-
-    <script>
     var imgCount=0;
     var product = document.getElementById('productIMGs');
     var upload = document.getElementById('upload'),
@@ -94,8 +102,6 @@
       reader.readAsDataURL(file);
       return false;
     };
-    </script>
-    <script>
       function changeLeaderIMG(e) {
         var Leaderholder = document.getElementById('leaderIMGHolder');
         var img = new Image();

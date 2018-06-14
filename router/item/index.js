@@ -80,20 +80,22 @@ router.get('/:id',(req, res)=>{
 
 //body:{owner_id}, initiate item posting, 새 글 작성페이지를 열때 호출하면 될듯.
 router.post('/', (req, res)=>{
-
 	if(req.body.owner_id!=null){
 		//item_state 'M'는 글 수정중임을 의미.
 		var sql = "INSERT INTO item ( owner_id, item_time, item_state) VALUES( '"+req.body.owner_id+"', NOW(), 'M')"
 		db.query(sql, (err, result)=>{
 			if(err){
 				console.log(err);
-				res.status(500).send("query failed");
+				//query 실패를 클라이언트에 알림.
+				res.status(500).send("QUERY_FAIL");
 			}else{
-				res.send('success');
+				//query성공, 클라이언트에 새로 생성된 item의 id를 전달.
+				res.send({item_id:result.insertId});
 			}
-		})
+		});
 	}else{
-		res.status(400).send("body validation failed");
+		//owner_id값이 전달되지 않아 쿼리를 시작하지 않음, 잘못된 요청.
+		res.status(400).send("BODY_VALIDATION_FAIL");
 	}
 });
 
