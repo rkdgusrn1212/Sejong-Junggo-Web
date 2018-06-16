@@ -39,7 +39,22 @@
               <% if( !login ){ %>
                 <li <% if(page==='login'){ %>class="active"<% } %>><a href="/login">로그인</a></li>
               <% }else{ %>
-                <li <% if(page==='edit'){ %>class="active"<% } %>><a href="/edit">상품 등록</a></li>
+                <li <% if(page==='edit'){ %>class="active"<% } %>><a href="#" onclick="onPostNewItem()">새 상품 등록</a></li>
+                <script>
+                //'새 상품 등록'을 클릭했을때 호출.
+                const onPostNewItem = ()=>{
+                  $.post( "item", {
+                      owner_id: <%- '"'+user.auth_id+'"' %>
+                    }).done((data)=>{
+                      //성공적으로 생성이 완료 되었으므로 itemId를 edit의 URL parameter로 넘겨주어 새 문서를 불러온다.
+                      window.location.assign("/edit/"+data.item_id);
+                    }).fail((data)=>{
+                      alert(data.responseText);
+                      //생성에 실패하였으므로 redirect
+                      window.location.replace('/');
+                    });
+                }
+                </script>
                 <li <% if(page==='my_items'){ %>class="active"<% } %>><a href="/my_items">내 판매 목록</a></li>
                 <li <% if(page==='my_requests'){ %>class="active"<% } %>><a href="/my_requests">내 거래 신청 목록</a></li>
                 <li class="dropdown">

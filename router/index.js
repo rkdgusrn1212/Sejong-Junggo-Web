@@ -13,7 +13,7 @@ module.exports = function(app){
     secret: sessionSecret,
     resave: false,
     cookie:{
-      maxAge: 1000 * 60 * 60 // cookie expired in 1hour.
+      maxAge: 1000 * 60 * 60 //쿠키가 한시간안에 만료된다.
     },
     saveUninitialized: true
   }));
@@ -34,28 +34,15 @@ module.exports = function(app){
       //로그인됨.
       if(req.user.signup){
         //필수정보 등록됨.
-        if(Number.isInteger(id)){
+        //id가 양의 정수일때 참인 정규표현식
+        let regex = /^[1-9][0-9]*$/;
+        if(regex.test(req.params.id)){
           //url 파라미터가 정수.
           res.render('edit.html',{login:true, user:req.session.passport.user, id:req.params.id, page:'edit'});
         }else{
           //잘못된 url 파라미터.
           res.status(400).send("INVALID_URL");
         }
-      }else{
-        //필수정보 미등록.
-        res.redirect('/login/signup');
-      }
-    }else{
-      //로그인 안됨.
-      res.redirect('/login');
-    }
-  });
-  app.get('/edit',(req, res)=>{
-    if(req.isAuthenticated()){
-      //로그인 됨.
-      if(req.user.signup){
-        //필수정보 입력됨.
-        res.render('edit.html',{login:true, user:req.user, id:-1, page:'edit'});
       }else{
         //필수정보 미등록.
         res.redirect('/login/signup');
