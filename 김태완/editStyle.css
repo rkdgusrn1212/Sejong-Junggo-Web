@@ -66,7 +66,7 @@ nav ul li>a{
   height: 650px;
 }
 
-
+/*리더 이미지*/
 #leaderIMGHolder{
   position: relative;
   float: left;
@@ -83,15 +83,9 @@ nav ul li>a{
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
+  /*글자 가운데 정렬*/
 }
-#uploadLeaderIMG{
-  opacity: 0;
-  width: 330px;
-  height: 220px;
-  position: relative;
-  cursor: pointer;
-}
+/*상품 설명*/
 #inputData{
   float: right;
   border: 1px solid black;
@@ -109,6 +103,7 @@ nav ul li>a{
   width: 400px;
 
 }
+/*상품 이미지 미리보기*/
 #productIMGs{
   float: left;
   position: relative;
@@ -117,7 +112,7 @@ nav ul li>a{
   padding: 5px;
   height: 81px;
   width: 474px;
-  white-space: nowrap;
+  white-space: nowrap;/*이미지를 가로로 나열하기 위해 사용*/
   overflow-x: scroll;
 
 }
@@ -127,6 +122,7 @@ nav ul li>a{
   margin-left: 5px;
   height: 60px;
 }
+/*업로드 버튼*/
 #uploadButton{
   position: relative;
   float: left;
@@ -147,10 +143,8 @@ nav ul li>a{
   height: 55px;
   width: 60px;
   cursor: pointer;
-
-
 }
-
+/*상품 상세 설명*/
 #textArea{
   width: 886px;
   height: 349px;
@@ -158,8 +152,10 @@ nav ul li>a{
   padding: 5px;
   resize: none;
 }
+/*제출 버튼*/
 #submitButton{
   float: right;
   cursor: pointer;
 }
+/*크롬에서 파일 버튼에 커서를 바꾸기 위해 */
 ::-webkit-file-upload-button { cursor:pointer; }

@@ -38,7 +38,7 @@
         <div id="leaderIMG">
         <div id="leaderIMGHolder">대표이미지</div>
         </div>
-
+        <!--상품정보-->
         <div id="productInfo">
           <table>
             <tr>
@@ -59,13 +59,14 @@
             </tr>
           </table>
         </div>
-
+        <!--상품 가격-->
         <div id="price">
           가격:
         </div>
+         <!--구매 하기 버튼-->
         <button id="buyButton" type="button" name="buyButton">구매하기</button>
-
-
+  
+        <!--상품 이미지-->
         <div id="productIMGs" onwheel="scrollControl(event)">
           <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="C:\Users\twan\Desktop\태완\사진\102_0116\IMG_0030.JPG">
           <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="C:\Users\twan\Desktop\태완\사진\102_0116\IMG_0031.JPG">
@@ -75,7 +76,7 @@
           <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="C:\Users\twan\Desktop\태완\사진\102_0116\IMG_0040.JPG">
           <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="C:\Users\twan\Desktop\태완\사진\102_0116\IMG_0042.JPG">
         </div>
-
+        <!--상품 설명-->
         <div id="explain">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -84,6 +85,7 @@
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </div>
+        <!--편집, 삭제 버튼-->
         <div id="buttons">
           <button id="editButton" type="button" name="button">편집하기</button>
           <button id="removeButton" type="button" name="button">삭제하기</button>
@@ -93,16 +95,19 @@
     </div>
 
     <script>
+     //상품이미지 미리보기 가로 스크롤 함수
     function scrollControl(event) {
       var xpos = event.deltaY;
       var itemIMGs = document.getElementById('productIMGs');
       itemIMGs.scrollLeft=itemIMGs.scrollLeft+xpos;
     }
     function newIMG(data) {
+      //상품이미지 더블클릭시 이미지가 새창으로 열림
       var newWindow = window.open('','image','width=900,height=600');
       newWindow.location.href=data;
     }
     function gotoLeader(data) {
+      //상품이미지 한번 클릭시 이미지가 대표이미지 칸에 나타남
       var Leaderholder = document.get
       var Leaderholder = document.getElementById('leaderIMGHolder');
       var img=new Image();

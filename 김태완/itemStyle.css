@@ -64,7 +64,7 @@ nav ul li>a{
   overflow-y: scroll;
   height: 650px;
 }
-
+/*대표 이미지*/
 #leaderIMG{
   width: 330px;
   height: 220px;
@@ -79,6 +79,7 @@ nav ul li>a{
   height: 110px;
   float: left;
 }
+/*상품 설명*/
 table{
   width: 300px;
   height: 110px;
@@ -103,6 +104,7 @@ text-overflow: ellipsis;
   padding: 0 5px;
   color: gray;
 }
+/*가격*/
 #price{
   height: 70px;
   width: 229px;
@@ -110,6 +112,7 @@ text-overflow: ellipsis;
   color: gray;
   float: left;
 }
+/*구매 버튼*/
 #buyButton{
   margin-left: 10px;
   width: 229px;
@@ -119,6 +122,7 @@ text-overflow: ellipsis;
   color: white;
   cursor: pointer;
 }
+/*상품 이미지*/
 #productIMGs{
   margin-left: 10px;
   margin-top: 20px;
@@ -128,7 +132,7 @@ text-overflow: ellipsis;
   width: 527px;
   height: 81px;
   float: left;
-  white-space: nowrap;
+  white-space: nowrap;/*이미지 가로로 나열*/
   overflow-x: scroll;
 }
 #productIMGs img{
@@ -136,7 +140,7 @@ text-overflow: ellipsis;
   width: 90px;
   cursor: pointer;
 }
-
+/*상품 설명*/
 #explain{
   float: left;
   margin-top: 20px;
@@ -145,6 +149,7 @@ text-overflow: ellipsis;
   border-bottom: 1px solid black;
   padding: 10px 0;
 }
+/*편집, 삭제 */
 #buttons{
   float: right;
 }

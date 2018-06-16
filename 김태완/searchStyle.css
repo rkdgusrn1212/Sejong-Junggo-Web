@@ -65,6 +65,7 @@ nav ul li>a{
   border: 1px solid black;
  overflow: hidden;
 }
+/*정렬 기준*/
 #sort{
   float: left;
 }
@@ -82,6 +83,7 @@ nav ul li>a{
 .sortItem:nth-child(3){
   border-right: 1px solid black;
 }
+/*필터 기준*/
 #filter{
   float: right;
 }
@@ -96,7 +98,7 @@ nav ul li>a{
 .filterItem:nth-child(2){
   border-right: 1px solid black;
 }
-
+/*상품 들*/
 #articleSection{
   float: left;
   margin-top: 10px;

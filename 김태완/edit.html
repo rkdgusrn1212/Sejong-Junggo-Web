@@ -41,7 +41,7 @@
           대표이미지
           </div>
         </div>
-
+        <!--상품의 정보를 입력-->
         <div id="inputData">
           <table>
             <tr>
@@ -66,15 +66,18 @@
             </tr>
           </table>
         </div>
-
+        <!--업로드 한 상품 이미지 미리보기-->
         <div id="productIMGs" onwheel="scrollControl(event)">
           <div class="holder"></div>
         </div>
+        <!--이미지 올리기 버튼-->
         <div id="uploadButton">
+          <!--일반 버튼을 뒤로 파일 버튼을 앞으로 동시에 두어서 파일버튼은 투명하게 만들어 일반버튼을 
+          누를때 파일이 올라가는 것처럼 변경-->
           <button id="imageButton" class="btn btn-secondary" type="button" name="button">이미지<br/>올리기</button>
           <input type="file" id="upload" title=" " name="itemIMG">
         </div>
-
+          <!--상품 상세 설명-->
           <textarea id="textArea" name="itemExp" rows="8" cols="100">상세 설명 입력</textarea>
 
 
@@ -85,47 +88,58 @@
     </div>
 
     <script>
+    //이미지 미리보기 부분에서 마우스로 스크롤 이벤트를 발생할때 가로로 스크롤이 됨
     function scrollControl(event) {
-      var xpos = event.deltaY;
+      var xpos = event.deltaY;//변수에 마우스 휠 변회를 저장
       var itemIMGs = document.getElementById('productIMGs');
-      itemIMGs.scrollLeft=itemIMGs.scrollLeft+xpos;
+      itemIMGs.scrollLeft=itemIMGs.scrollLeft+xpos;//scrollLeft를 사용해 변경
     }
     </script>
 
     <script>
-    var imgCount=0;
+    //이미지등록 버튼을 눌러서 선택한 이미지를 미리보기에 보여주기
+    var imgCount=0;//이미지가 올라갈때마다 카운터 증가
     var product = document.getElementById('productIMGs');
     var upload = document.getElementById('upload'),
         holder = document.getElementsByClassName('holder');
+     //이미지 올리기 버튼을 눌러 파일 선택시 이벤트 발생
     upload.onchange = function (e) {
       e.preventDefault();
       var file = upload.files[0],
         reader = new FileReader();
+        //다음번에 올라갈 div를 미리 만듬
         var node = document.createElement("Div");
         node.className="holder";
         product.appendChild(node);
           reader.onload = function (event) {
+            //이미지를 만듬
             var img = new Image();
             img.src = event.target.result;
             img.height = 60;
             img.width = 90;
+            //이미지를 클릭할때 발생되는 이벤트 생성
             img.addEventListener('click',changeLeaderIMG);
+             //이미지를 holder에 붙임
             holder[imgCount].innerHTML = '';
             holder[imgCount].appendChild(img);
             imgCount = imgCount+1;
         };
+      //file내용을 읽어옴 load발생
       reader.readAsDataURL(file);
       return false;
     };
     </script>
     <script>
+      //미리보기 이미지 클릭시 이벤트 발생
       function changeLeaderIMG(e) {
         var Leaderholder = document.getElementById('leaderIMGHolder');
+        //이미지를 태그를 생성
         var img = new Image();
         img.src = e.target.src;
         img.height = 220;
         img.width = 330;
         Leaderholder.innerHTML = '';
+        //이미지 태그를 지정한 곳에 붙임
         Leaderholder.appendChild(img);
       }
     </script>
