@@ -67,7 +67,7 @@ router.get('/', function(req, res){
 
 //item_time 반환 형식 ISO-8601 세계 표준시 기준.
 router.get('/:id',(req, res)=>{
-	var sql ='SELECT * FROM item where item_id = '+req.params.id;
+	var sql ='SELECT item_id, item_name, owner_id, CONVERT(item_specific USING utf8), item_time, item_price, item_method, item_state, asker_id, item_main_image FROM item where item_id = '+req.params.id;
 	db.query(sql, function(err, rows, fields){
 		if(err){
 			console.log(err);
@@ -101,6 +101,8 @@ router.post('/', (req, res)=>{
 
 //body에 업데이트될 컬럼들을 JSON형태로 전송, ex) body{"item_name"="면도기"}, 저장버튼을 누를때 호출되면 될 듯
 router.put('/:id', (req, res)=>{
+
+		console.log(req.body);
 	if(req.body.item_state=='S'){
 		let sql = "UPDATE item SET item_time = NOW(), item_state='S' WHERE item_state<>'S' AND item_name not null AND item_price not null AND item_method not null AND item_main_image not null AND item_id = '"+req.params.id+"'";
 		db.query(sql, (err, raws, fields)=>{
@@ -120,6 +122,7 @@ router.put('/:id', (req, res)=>{
 			}
 		});
 	}else if(req.body.item_state==null){
+		console.log(req.body);
 		let sql = "UPDATE item SET item_state='M',";
 		let validation = false;
 		if(req.body.item_name){
@@ -147,16 +150,16 @@ router.put('/:id', (req, res)=>{
 			db.query(sql, (err, result)=>{
 				if(err){
 					console.log(err);
-					res.status(500).send("query failed");
+					res.status(500).send("QUERY_FAIL");
 				}else{
-					res.send("success");
+					res.send({result:"SUCCESS"});
 				}
 			});
 		}else{
-			res.status(400).send("body validation failed");
+			res.status(400).send("BODY_VALIDATION_FAIL");
 		}
 	}else{
-		res.status(400).send("body validation failed");
+		res.status(400).send("BODY_VALIDATION_FAIL");
 	}
 });
 //item 삭제

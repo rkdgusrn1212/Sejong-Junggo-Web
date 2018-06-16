@@ -43,7 +43,7 @@ module.exports = (router)=>{
       let exclusiveName = splitedName[0];
       let extension = splitedName[1];
       let thumbUrl = 'image/item/thumb/'+exclusiveName+"-300x300."+extension;
-      let thumbMicroUrl = 'image/item/micro_thumb/'+exclusiveName+"-100x100"+extension;
+      let thumbMicroUrl = 'image/item/micro_thumb/'+exclusiveName+"-100x100."+extension;
       let sql = "INSERT INTO item_image ( item_id, url, thumb_url, thumb_micro_url) VALUES ( "+req.params.item_id+", '"+url+"', '"+thumbUrl+"', '"+thumbMicroUrl+"')";
       db.query(sql, (err, result)=>{
         if(err){

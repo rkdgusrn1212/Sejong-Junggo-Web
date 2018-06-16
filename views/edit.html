@@ -28,10 +28,6 @@
               <td><label class="mylabel" for="trade">거래방식:</label></td>
               <td><input class="myInputText" id="trade" type="text" name="itemTrade" autocomplete="off"></td>
             </tr>
-            <tr>
-              <td><label class="mylabel" for="phone" >연락처:</label></td>
-              <td><input class="myInputText" id="phone" type="text" name="itemPhone" autocomplete="off"></td>
-            </tr>
           </table>
         </div>
         <!--업로드 한 상품 이미지 미리보기-->
@@ -48,19 +44,13 @@
           <!--상품 상세 설명-->
           <textarea id="textArea" name="itemExp" rows="8" cols="100">상세 설명 입력</textarea>
 
-
-         <input id="submitButton" type="submit" name="" value="등록하기" >
+         <button id="submitButton" type="button">등록하기</button>
         </form>
       </section>
       </div>
     </div>
 
     <script>
-    //edit페이지에서 수정하고자 하는 item의 id.
-    var itemId = <%= id %>;
-    //edit페이지에서 수정하고자 하는 item의 owner_id.
-    var ownerId = <%- '"'+user.auth_id+'"' %>;
-
     //이미지 미리보기 부분에서 마우스로 스크롤 이벤트를 발생할때 가로로 스크롤이 됨
     function scrollControl(event) {
       var xpos = event.deltaY;//변수에 마우스 휠 변회를 저장
@@ -72,30 +62,93 @@
     var product = document.getElementById('productIMGs');
     var upload = document.getElementById('upload'),
         holder = document.getElementsByClassName('myholder');
+    //edit페이지에서 수정하고자 하는 item의 id.
+    var itemId = <%= id %>;
+    //edit페이지에서 수정하고자 하는 item의 owner_id.
+    var ownerId = <%- '"'+user.auth_id+'"' %>;
+    //item 엔트리.
+    let item;
+    //item이 가지는 image 엔트리들.
+    let itemImages = new Array();
+
+    //item 엔트리 가져오기
+    $.get('/item/'+itemId).done((data)=>{
+      item = data[0];
+      //input의 value값을 저장된 값으로 갱신.
+      $('#name').val(item.item_name);
+      $('#price').val(item.item_price);
+      $('#trade').val(item.item_method);
+      $('textArea').val(item["CONVERT(item_specific USING utf8)"]);
+    }).fail(()=>{
+      alert("데이터 불러오기 실패");
+      window.location.replace('/');
+    });
+    //item에 해당하는 image 엔트리들 가져오기
+    $.get('/item/'+itemId+'/image').done((data)=>{
+      itemImages = data;
+      for(let i=0; i< itemImages.length; i++){
+        var node = document.createElement("Div");
+        node.className="myholder";
+        product.appendChild(node);
+          //이미지를 만듬
+        var img = new Image();
+        console.log("/"+itemImages[i].thumb_micro_url);
+        img.src = "/"+itemImages[i].thumb_micro_url;
+        img.height = 60;
+        img.width = 90;
+        //이미지를 클릭할때 발생되는 이벤트 생성
+        img.addEventListener('click',changeLeaderIMG);
+           //이미지를 holder에 붙임
+        holder[imgCount].innerHTML = '';
+        holder[imgCount].appendChild(img);
+        imgCount = imgCount+1;
+      }
+    }).fail(()=>{
+      alert("데이터 불러오기 실패");
+      window.location.replace('/');
+    });
+
+
      //이미지 올리기 버튼을 눌러 파일 선택시 이벤트 발생
+     //이때 서버로 이미지 업로드한다.
     upload.onchange = function (e) {
       e.preventDefault();
       var file = upload.files[0],
         reader = new FileReader();
+      let formData = new FormData();
+      formData.append("img",file,file.name);
+      console.log(file);
+      $.ajax({
+        type:'POST',
+        url:"/item/"+itemId+"/image",
+        enctype:"multipart/form-data",
+        data: formData,
+        processData : false,
+        contentType : false
+      }).done((data)=>{
+        //이미지 업로드 성공 따라서 이미지를 띄움.
         //다음번에 올라갈 div를 미리 만듬
         var node = document.createElement("Div");
         node.className="myholder";
         product.appendChild(node);
-          reader.onload = function (event) {
-            //이미지를 만듬
-            var img = new Image();
-            img.src = event.target.result;
-            img.height = 60;
-            img.width = 90;
-            //이미지를 클릭할때 발생되는 이벤트 생성
-            img.addEventListener('click',changeLeaderIMG);
-             //이미지를 holder에 붙임
-            holder[imgCount].innerHTML = '';
-            holder[imgCount].appendChild(img);
-            imgCount = imgCount+1;
+        reader.onload = function (event) {
+          //이미지를 만듬
+          var img = new Image();
+          img.src = event.target.result;
+          img.height = 60;
+          img.width = 90;
+          //이미지를 클릭할때 발생되는 이벤트 생성
+          img.addEventListener('click',changeLeaderIMG);
+           //이미지를 holder에 붙임
+          holder[imgCount].innerHTML = '';
+          holder[imgCount].appendChild(img);
+          imgCount = imgCount+1;
         };
-      //file내용을 읽어옴 load발생
-      reader.readAsDataURL(file);
+        //file내용을 읽어옴 load발생
+        reader.readAsDataURL(file);
+      }).fail(()=>{
+        alert("이미지 업로드 실패");
+      });
       return false;
     };
       //미리보기 이미지 클릭시 이벤트 발생
@@ -110,5 +163,26 @@
         //이미지 태그를 지정한 곳에 붙임
         Leaderholder.appendChild(img);
       }
+
+      //등록하기 버튼 누르면 상품 업데이트 호출
+      $('#submitButton').click(()=>{
+        $.ajax({
+          type:'PUT',
+          url:"/item/"+itemId,
+          data:JSON.stringify({
+            item_name:$('#name').val(),
+            item_method:$('#trade').val(),
+            item_price:$('#price').val(),
+            item_specific:$('#textArea').val()
+          }),
+          dataType: 'json',
+          contentType:"application/json; charset=UTF-8"
+        }).done(()=>{
+          alert("상품이 업데이트 되었습니다");
+          window.location.replace('/');
+        }).fail(()=>{
+          alert("상품 업데이트 실패");
+        });
+      });
     </script>
 <% include footer.html.ejs %>

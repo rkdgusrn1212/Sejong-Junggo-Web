@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="/js/jquery.min.js"></script>
+</head>
+<body>
+  <form id="form">
+    <input id="upload" type="file"/>
+    <input type="submit" value="올리기"/>
+  </form>
+  <script>
+  var upload = document.getElementById('upload');
+  upload.onchange = function (e) {
+    e.preventDefault();
+    
+  };
+  </script>
+<% include footer.html.ejs %>

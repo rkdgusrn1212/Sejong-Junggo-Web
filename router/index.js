@@ -29,6 +29,9 @@ module.exports = function(app){
       res.render('main.html',{login:true, user:req.session.passport.user, page:'main'});
     }
   });
+  app.get('/test',(req, res)=>{
+    res.render('test.html');
+  });
   app.get('/edit/:id',(req,res)=>{
     if(req.isAuthenticated()){
       //로그인됨.

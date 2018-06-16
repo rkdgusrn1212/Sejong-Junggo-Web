@@ -43,7 +43,7 @@
                 <script>
                 //'새 상품 등록'을 클릭했을때 호출.
                 const onPostNewItem = ()=>{
-                  $.post( "item", {
+                  $.post( "/item", {
                       owner_id: <%- '"'+user.auth_id+'"' %>
                     }).done((data)=>{
                       //성공적으로 생성이 완료 되었으므로 itemId를 edit의 URL parameter로 넘겨주어 새 문서를 불러온다.
