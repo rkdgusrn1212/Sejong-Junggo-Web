@@ -1,3 +1,4 @@
+/*다른 css 파일과의 충돌을 피하기 위해 전체를 감싸는 스타일을 두고 모든 선언을 자손 스타일로 함.*/
 #edit-page-wrapper{
   width:960px;
   background: white;
@@ -5,11 +6,13 @@
   border-radius: 5px;
   box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
 }
+/*하위의 모든 속성을 초기화함*/
 #edit-page-wrapper * {
     margin: 0;
     padding: 0;
     box-sizing: unset;
 }
+/*하위의 모든 속성을 초기화함*/
 #edit-page-wrapper input{
   border-collapse: separate;
   -webkit-appearance: textfield;
@@ -53,7 +56,7 @@
   overflow: hidden;
   height: 650px;
 }
-
+/*리더 이미지*/
 #edit-page-wrapper #leaderIMGHolder{
   position: relative;
   float: left;
@@ -70,7 +73,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
+  /*글자 가운데 정렬*/
 }
 #edit-page-wrapper #uploadLeaderIMG{
   opacity: 0;
@@ -79,6 +82,7 @@
   position: relative;
   cursor: pointer;
 }
+/*상품 설명*/
 #edit-page-wrapper #inputData{
   float: right;
   border: 1px solid black;
@@ -95,6 +99,7 @@
 #edit-page-wrapper .myInputText{
   width: 400px;
 }
+/*상품 이미지 미리보기*/
 #edit-page-wrapper #productIMGs{
   float: left;
   position: relative;
@@ -113,6 +118,7 @@
   margin-left: 5px;
   height: 60px;
 }
+/*업로드 버튼*/
 #edit-page-wrapper #uploadButton{
   position: relative;
   float: left;
@@ -136,7 +142,7 @@
 
 
 }
-
+/*상품 상세 설명*/
 #edit-page-wrapper #textArea{
   width: 886px;
   height: 349px;
@@ -144,6 +150,7 @@
   padding: 5px;
   resize: none;
 }
+/*제출 버튼*/
 #edit-page-wrapper #submitButton{
   float: right;
   cursor: pointer;
