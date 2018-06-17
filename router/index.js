@@ -102,4 +102,19 @@ module.exports = function(app){
       res.redirect('/login');
     }
   });
+  //시세가 불러오는 get메소드.
+  app.get('/market_price',(req, res)=>{
+    let queryText = req.query.item_name;
+    //파이썬을 child process로 호출하여 시세값을 크롤링한다.
+    const spawn = require('child_process').spawn;
+    //다나와 크롤링 파이썬 프로세스를 스폰하면서 쿼리텍스트를 인자로 넘긴다.
+    const py = spawn('python', ['Danawa_crawling.py', queryText]);
+    py.stdout.on('data', function(data){
+      let price = data.toString();
+      res.send({
+        item_name:queryText,
+        item_price:price.substring(0,price.length-2)
+      });
+    });
+  })
 };
