@@ -133,7 +133,7 @@
 			image.src="/image/round_wallpaper_black_48dp.png";
 			image.alt = "";
 			image.width = 100;
-			image.id = data[i].item_id+":"+data[i].item_main_image;
+			image.id = data[i].item_id+"-"+data[i].item_main_image;
 			if(data[i].item_main_image!=null){
 				image.src="/image/round_cached_black_48dp.png";
 				$.get("/item/"+data[i].item_id+"/image/"+data[i].item_main_image).done((result)=>{
@@ -151,10 +151,12 @@
 			let imageDiv = $('<div/>', {
 				class: 'pull-left'});
 			imageDiv.append(image);
+			//시간은 local로 변환
+			let currentTime = new Date(data[i].item_time);
 			//상세정보div
-			let specDiv = $('<div class="pull-left" style="margin-left: 30px;padding-top: 20px;"><strong>'+data[i].item_name+'</strong><br /><span>₩'+data[i].item_price+'원</span><br /><span>'+data[i].item_time+'</span></div>');
+			let specDiv = $('<div class="pull-left" style="margin-left: 30px;padding-top: 20px;"><strong>'+(data[i].item_name==null?'이름미정':data[i].item_name)+'</strong><br /><span>'+(data[i].item_price==null?'가격미정':('₩'+data[i].item_price+'원'))+'</span><br /><span>'+currentTime.toString()+'</span></div>');
 			//버튼 div
-			let buttonDiv = $('<div class="pull-right" style="padding-top: 30px;"><a href="#" class="btn btn-warning" style="margin-bottom: 10px;">편집</a><br /><a href="#" class="btn btn-danger">삭제</a></div>');
+			let buttonDiv = $('<div class="pull-right" style="padding-top: 10px;"><a href="/edit/'+data[i].item_id+'" class="btn btn-warning" style="margin-bottom: 10px;">편집</a><br /><a href="#" class="btn btn-danger" id="'+data[i].item_id+'" onclick="deleteItem(this)">삭제</a></div>');
 			//홀더 div
 			let holderDiv = $('<div />', {
 				class: 'clearfix'
@@ -162,10 +164,7 @@
 			holderDiv.append(imageDiv);
 			holderDiv.append(specDiv);
 			holderDiv.append(buttonDiv);
-			let itemDiv = $('<div />', {
-				class: 'my-req-list',
-				id: "123"
-			});
+			let itemDiv = $('<div class="my-req-list" id="holder-'+data[i].item_id+'" />');
 			itemDiv.append(holderDiv);
 			$("#modify_list").append(itemDiv);
 		}
@@ -178,42 +177,7 @@
 		owner_id:ownerId,
 		item_state:'S'
 	}).done((data)=>{
-		for(let i =0 ;i<data.length;i++){
-			//이미지 생성
-			let image = new Image();
-			image.src = "https://cdn.shopify.com/s/files/1/0787/5255/products/Bando_complimentpencilset-bts16.jpg?v=1525806099";
-			image.alt = "";
-			image.width = 100;
-			//이미지 랩핑 div
-			let imageDiv = $('<div/>', {
-				class: 'pull-left'});
-			hodlerDiv.append(image);
-			//상세정보div
-			let specDiv = $('<div/>', {
-				text:"&lt;strong&gt;지우개 연필&lt;/strong&gt;&lt;br /&gt;&lt;span&gt;₩2,500원&lt;/span&gt;&lt;br /&gt;&lt;span&gt;2018-06-01 12:12:12&lt;/span&gt;",
-				class: 'pull-left',
-				style: "margin-left: 30px;padding-top: 20px;"
-			});
-			//버튼 div
-			let buttonDiv = $('<div />', {
-        class: 'pull-right',
-				text:'&lt;a href="#" class="btn btn-warning" style="margin-bottom: 10px;"&gt;편집&lt;/a&gt;&lt;br /&gt;&lt;a href="#" class="btn btn-danger"&gt;삭제&lt;/a&gt;',
-				style: "margin-bottom: 10px;"
-			});
-			//홀더 div
-			let holderDiv = $('<div />', {
-        class: 'clearfix'
-			});
-			holderDiv.append(imageDiv);
-			holderDiv.append(specDiv);
-			holderDiv.append(buttonDiv);
-			let itemDiv = $('<div />', {
-			  class: 'my-req-list',
-				id: "123"
-			});
-			itemDiv.append(holderDiv);
-			$("#modify_list").append(itemDiv);
-		}
+
 		alert(JSON.stringify(data));
 	}).fail(()=>{
 		alert("내 판매상품정보 불러오기 실패");
@@ -228,5 +192,17 @@
 	}).fail(()=>{
 		alert("내 대기상품정보 불러오기 실패");
 	});
+
+	function deleteItem(obj){
+		$.ajax({
+			url:"/item/"+obj.id,
+			type:"DELETE"
+		}).done(()=>{
+			alert(obj.id+"삭제 성공");
+			$("#holder-"+obj.id).remove();
+		}).fail(()=>{
+			alert("삭제 실패");
+		});
+	}
 	</script>
 <% include footer.html.ejs %>

@@ -169,9 +169,10 @@ router.delete('/:id', (req, res)=>{
 	var sql = "DELETE FROM item WHERE item_id = '"+req.params.id+"'";
 	db.query(sql, (err, result)=>{
 		if(err){
+			console.log(err);
 			res.status(500).send("query failed");
 		}else{
-			res.send('success');
+			res.send({result:'success'});
 		}
 	});
 });
