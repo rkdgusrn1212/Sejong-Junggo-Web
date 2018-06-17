@@ -1,6 +1,7 @@
 const db = require('../../db-server');
 const multer = require('multer');
 const crypto = require('crypto');
+const async = require('async');
 const fs = require('fs');
 const mime = require('mime');
 const storage = multer.diskStorage({
@@ -20,37 +21,64 @@ const microThumbnail = new Thumbnail(__dirname+'/../../public/image/item', __dir
 
 module.exports = (router)=>{
   //item에 해당하는 이미지를 추가. 이미지를 서버에 업로드하고 반환된 url과 썸네일 url들을 본문에 포함하여 호출하여야한다.
-  router.post('/:item_id/image', (req, res)=>{
+  router.post('/:item_id/image',(req, res)=>{
+    //서버로 이미지를 업로드
     upload(req, res, (err)=>{
       if(err){
         console.log(err);
         res.status(500).send("upload failed");
         return;
       }
-      thumbnail.ensureThumbnail(req.file.filename, 300, 300, function (err, filename) {
-        if(err){
-          console.log(err);
+      //병렬 처리
+      async.parallel([
+        (callback)=>{
+          //중간크기의 썸네일을 생성
+          thumbnail.ensureThumbnail(req.file.filename, 300, 300, function (err, filename) {
+            if(err){
+              console.log(err);
+              callback({code:500,msg:IMAGE_PROCESSING_ERROR});
+            }else{
+              callback();
+            }
+          });
+        },
+        (callback)=>{
+          //작은크기의 썸네일을 생성.
+          microThumbnail.ensureThumbnail(req.file.filename, 100, 100, function (err, filename) {
+            if(err){
+              console.log(err);
+              callback({code:500,msg:IMAGE_PROCESSING_ERROR});
+            }else{
+              callback();
+            }
+          });
         }
-      });
-      microThumbnail.ensureThumbnail(req.file.filename, 100, 100, function (err, filename) {
+      ],(err,result)=>{
         if(err){
-          console.log(err);
-        }
-      });
-      /*썸네일 로직 구현 필요->graphicsImage 리눅스 설치 + thumbnail*/
-      let url = 'image/item/'+req.file.filename;
-      let splitedName = (req.file.filename).split('.');
-      let exclusiveName = splitedName[0];
-      let extension = splitedName[1];
-      let thumbUrl = 'image/item/thumb/'+exclusiveName+"-300x300."+extension;
-      let thumbMicroUrl = 'image/item/micro_thumb/'+exclusiveName+"-100x100."+extension;
-      let sql = "INSERT INTO item_image ( item_id, url, thumb_url, thumb_micro_url) VALUES ( "+req.params.item_id+", '"+url+"', '"+thumbUrl+"', '"+thumbMicroUrl+"')";
-      db.query(sql, (err, result)=>{
-        if(err){
-          console.log(err);
-          res.status(500).send("query failed");
+          res.status(err.code).send(err.msg);
         }else{
-          res.send("success");
+          //썸네일 생성이 둘다 성공.
+          let url = '/image/item/'+req.file.filename;
+          let splitedName = (req.file.filename).split('.');
+          let exclusiveName = splitedName[0];
+          let extension = splitedName[1];
+          let thumbUrl = '/image/item/thumb/'+exclusiveName+"-300x300."+extension;
+          let thumbMicroUrl = '/image/item/micro_thumb/'+exclusiveName+"-100x100."+extension;
+          let sql = "INSERT INTO item_image ( item_id, url, thumb_url, thumb_micro_url) VALUES ( "+req.params.item_id+", '"+url+"', '"+thumbUrl+"', '"+thumbMicroUrl+"')";
+          db.query(sql, (err, result)=>{
+            if(err){
+              console.log(err);
+              res.status(500).send("query failed");
+            }else{
+              res.send({
+                item_id:req.params.item_id,
+                url:url,
+                thumb_url:thumbUrl,
+                thumb_micro_url:thumbMicroUrl,
+                image_id:result.insertId
+              });
+            }
+          });
         }
       });
     });
@@ -71,8 +99,8 @@ module.exports = (router)=>{
 
   //해당 아이템의 이미지를 삭제한다.
   //서버에 저장된 이미지와 썸네일 이미지들도 삭제하기위한 트리거 역활을 한다. 호출 후 반드시 해당 이미지 삭제.
-  router.delete('/:item_id/image/:img_Id',()=>{
-    let sql = "SELECT FROM item_image WHERE item_id = "+req.params.item_id+" AND image_id = "+req.params.img_id;
+  router.delete('/:item_id/image/:img_id',(req, res)=>{
+    let sql = "SELECT * FROM item_image WHERE item_id = "+req.params.item_id+" AND image_id = "+req.params.img_id;
     db.query(sql, (err, rows, fields)=>{
       if(err){
         console.log(err)
@@ -98,7 +126,7 @@ module.exports = (router)=>{
               console.log(err);
             }
           });
-          sql = "DELETE FROM item_image WHERE item_id = "+req.params.item_id+" AND image_id = "+req.params.img_Id;
+          sql = "DELETE FROM item_image WHERE item_id = "+req.params.item_id+" AND image_id = "+req.params.img_id;
           db.query(sql, (err, result)=>{
             if(err){
               console.log(err);

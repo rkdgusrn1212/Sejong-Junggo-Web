@@ -11,6 +11,7 @@
     margin: 0;
     padding: 0;
     box-sizing: unset;
+    vertical-align: top;
 }
 /*하위의 모든 속성을 초기화함*/
 #edit-page-wrapper input{
@@ -110,7 +111,8 @@
   width: 474px;
   white-space: nowrap;
   overflow-x: scroll;
-
+  /*y축 스크롤 제거*/
+  overflow-y: hidden;
 }
 #edit-page-wrapper .myholder{
   display: inline-block;

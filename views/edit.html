@@ -69,7 +69,7 @@
     //item 엔트리.
     let item;
     //item이 가지는 image 엔트리들.
-    let itemImages = new Array();
+    let itemImages = {};
 
     //item 엔트리 가져오기
     $.get('/item/'+itemId).done((data)=>{
@@ -79,32 +79,60 @@
       $('#price').val(item.item_price);
       $('#trade').val(item.item_method);
       $('textArea').val(item["CONVERT(item_specific USING utf8)"]);
+      //item에 해당하는 image 엔트리들 가져오기
+      $.get('/item/'+itemId+'/image').done((data)=>{
+        for(let i=0; i< data.length; i++){
+          var node = document.createElement("Div");
+          node.className="myholder";
+          product.appendChild(node);
+          itemImages[data[i].image_id] = data[i];
+            //이미지를 만듬
+          var img = new Image();
+          img.src = data[i].thumb_micro_url;
+          img.height = 60;
+          img.width = 90;
+          img.id = data[i].image_id;
+          //이미지를 클릭할때 발생되는 이벤트 생성
+          img.addEventListener('click',changeLeaderIMG);
+
+          //삭제 버튼 만듬.
+          let deleteImg = new Image();
+          deleteImg.src = "/image/baseline_remove_circle_white_48dp.png"
+          deleteImg.height = 18;
+          deleteImg.width = 18;
+          deleteImg.style.position = "relative";
+          deleteImg.style.left = "-18px";
+          deleteImg.style.top = "42px";
+
+          //삭제 이벤트 리스너등록
+          deleteImg.addEventListener('click',deleteImage);
+
+             //이미지를 holder에 붙임
+          holder[imgCount].innerHTML = '';
+          holder[imgCount].appendChild(img);
+          holder[imgCount].appendChild(deleteImg);
+          imgCount = imgCount+1;
+        }
+        //정해진 메인 이미지가 있을시 매인 이미지도 보여주기
+        if(item.item_main_image!=null){
+          var Leaderholder = document.getElementById('leaderIMGHolder');
+          //메인 이미지 홀더에 클릭한 이미지의 id를 받아와서 새로 만든 이미지 태크의 id로 지정하고 해당하는 이미지를 소스로 설정.
+          var img = new Image();
+          img.id=item.item_main_image;
+          img.src = itemImages[item.item_main_image].thumb_url;
+          img.height = 220;
+          img.width = 330;
+          Leaderholder.innerHTML = '';
+          //이미지 태그를 지정한 곳에 붙임
+          Leaderholder.appendChild(img);
+
+        }
+      }).fail(()=>{
+        alert("상품 이미지 불러오기 실패");
+        window.location.replace('/');
+      });
     }).fail(()=>{
-      alert("데이터 불러오기 실패");
-      window.location.replace('/');
-    });
-    //item에 해당하는 image 엔트리들 가져오기
-    $.get('/item/'+itemId+'/image').done((data)=>{
-      itemImages = data;
-      for(let i=0; i< itemImages.length; i++){
-        var node = document.createElement("Div");
-        node.className="myholder";
-        product.appendChild(node);
-          //이미지를 만듬
-        var img = new Image();
-        console.log("/"+itemImages[i].thumb_micro_url);
-        img.src = "/"+itemImages[i].thumb_micro_url;
-        img.height = 60;
-        img.width = 90;
-        //이미지를 클릭할때 발생되는 이벤트 생성
-        img.addEventListener('click',changeLeaderIMG);
-           //이미지를 holder에 붙임
-        holder[imgCount].innerHTML = '';
-        holder[imgCount].appendChild(img);
-        imgCount = imgCount+1;
-      }
-    }).fail(()=>{
-      alert("데이터 불러오기 실패");
+      alert("상품 데이터 불러오기 실패");
       window.location.replace('/');
     });
 
@@ -117,7 +145,6 @@
         reader = new FileReader();
       let formData = new FormData();
       formData.append("img",file,file.name);
-      console.log(file);
       $.ajax({
         type:'POST',
         url:"/item/"+itemId+"/image",
@@ -126,26 +153,38 @@
         processData : false,
         contentType : false
       }).done((data)=>{
+        itemImages[data.image_id] = data;
         //이미지 업로드 성공 따라서 이미지를 띄움.
         //다음번에 올라갈 div를 미리 만듬
         var node = document.createElement("Div");
         node.className="myholder";
         product.appendChild(node);
-        reader.onload = function (event) {
-          //이미지를 만듬
-          var img = new Image();
-          img.src = event.target.result;
-          img.height = 60;
-          img.width = 90;
-          //이미지를 클릭할때 발생되는 이벤트 생성
-          img.addEventListener('click',changeLeaderIMG);
-           //이미지를 holder에 붙임
-          holder[imgCount].innerHTML = '';
-          holder[imgCount].appendChild(img);
-          imgCount = imgCount+1;
-        };
-        //file내용을 읽어옴 load발생
-        reader.readAsDataURL(file);
+
+        //이미지 생성
+        var img = new Image();
+        img.src = data.thumb_micro_url;
+        img.height = 60;
+        img.width = 90;
+        img.id=data.image_id;
+        //이미지를 클릭할때 발생되는 이벤트 생성
+        img.addEventListener('click',changeLeaderIMG);
+
+        //삭제 버튼 만듬.
+        let deleteImg = new Image();
+        deleteImg.src = "/image/baseline_remove_circle_white_48dp.png"
+        deleteImg.height = 18;
+        deleteImg.width = 18;
+        deleteImg.style.position = "relative";
+        deleteImg.style.left = "-18px";
+        deleteImg.style.top = "42px";
+        //삭제 이벤트 리스너등록
+        deleteImg.addEventListener('click',deleteImage);
+
+         //이미지를 holder에 붙임
+        holder[imgCount].innerHTML = '';
+        holder[imgCount].appendChild(img);
+        holder[imgCount].appendChild(deleteImg);
+        imgCount = imgCount+1;
       }).fail(()=>{
         alert("이미지 업로드 실패");
       });
@@ -154,9 +193,10 @@
       //미리보기 이미지 클릭시 이벤트 발생
       function changeLeaderIMG(e) {
         var Leaderholder = document.getElementById('leaderIMGHolder');
-        //이미지를 태그를 생성
+        //메인 이미지 홀더에 클릭한 이미지의 id를 받아와서 새로 만든 이미지 태크의 id로 지정하고 해당하는 이미지를 소스로 설정.
         var img = new Image();
-        img.src = e.target.src;
+        img.id=e.target.id;
+        img.src = itemImages[img.id].thumb_url;
         img.height = 220;
         img.width = 330;
         Leaderholder.innerHTML = '';
@@ -173,7 +213,8 @@
             item_name:$('#name').val(),
             item_method:$('#trade').val(),
             item_price:$('#price').val(),
-            item_specific:$('#textArea').val()
+            item_specific:$('#textArea').val(),
+            item_main_image:$('#leaderIMGHolder').children()[0].id
           }),
           dataType: 'json',
           contentType:"application/json; charset=UTF-8"
@@ -184,5 +225,22 @@
           alert("상품 업데이트 실패");
         });
       });
+
+      //이미지 삭제 메소드
+      let deleteImage = (event)=>{
+        $.ajax({
+          type:"DELETE",
+          url:"/item/"+itemId+"/image/"+event.target.parentNode.firstChild.id
+        }).done(()=>{
+          product.removeChild(event.target.parentNode);
+          imgCount--;
+          //메인 이미지에도 있으면 메인이미지도 삭제
+          if(event.target.parentNode.firstChild.id===$("#leaderIMGHolder").children()[0].id){
+            $("#leaderIMGHolder").children()[0].remove();
+          }
+        }).fail(()=>{
+          alert("이미지 삭제 실패");
+        });
+      }
     </script>
 <% include footer.html.ejs %>

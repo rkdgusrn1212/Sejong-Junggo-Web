@@ -141,7 +141,9 @@ router.put('/:id', (req, res)=>{
 			sql+=" item_method = '"+req.body.item_method+"',";
 			validation = true;
 		}
-		if(Number.isInteger(req.body.item_main_image)){
+		//양의 정수 정규식
+		let regex = /^[1-9][0-9]*$/;
+		if(regex.test(req.body.item_main_image)){
 			sql+=" item_main_image = '"+req.body.item_main_image+"',"
 			validation = true;
 		}
