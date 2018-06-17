@@ -103,7 +103,7 @@ router.post('/', (req, res)=>{
 router.put('/:id', (req, res)=>{
 
 		console.log(req.body);
-	if(req.body.item_state=='S'){
+	if(req.body.item_state=='S'){//판매중인 상태로 갱신
 		let sql = "UPDATE item SET item_time = NOW(), item_state='S' WHERE item_state<>'S' AND item_name not null AND item_price not null AND item_method not null AND item_main_image not null AND item_id = '"+req.params.id+"'";
 		db.query(sql, (err, raws, fields)=>{
 			if(err){
@@ -112,7 +112,7 @@ router.put('/:id', (req, res)=>{
 				res.send(raws);
 			}
 		});
-	}else if(req.body.item_state=='D'){
+	}else if(req.body.item_state=='D'){//거래중인 상태로 갱신
 		let sql = "UPDATE item SET item_time = NOW(), item_state='D' WHERE item_state = 'S'";
 		db.query(sql, (err, raws, fields)=>{
 			if(err){
@@ -121,7 +121,7 @@ router.put('/:id', (req, res)=>{
 				res.send(raws);
 			}
 		});
-	}else if(req.body.item_state==null){
+	}else if(req.body.item_state==null){//나머지 상태는 전부 대기(수정중) 상태로 갱신.
 		console.log(req.body);
 		let sql = "UPDATE item SET item_state='M',";
 		let validation = false;
