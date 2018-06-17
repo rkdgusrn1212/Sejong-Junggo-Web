@@ -68,7 +68,7 @@ module.exports = (router)=>{
           db.query(sql, (err, result)=>{
             if(err){
               console.log(err);
-              res.status(500).send("query failed");
+              res.status(500).send("QUERY_FAIL");
             }else{
               res.send({
                 item_id:req.params.item_id,
@@ -90,7 +90,20 @@ module.exports = (router)=>{
     db.query(sql, (err, raws, fields)=>{
       if(err){
         console.log(err);
-        res.status(500).send("query failed");
+        res.status(500).send("QUERY_FAIL");
+      }else{
+        res.send(raws);
+      }
+    });
+  });
+
+  //item의 해당 이미지를 불러온다. (thumb_url, thumb_micro_url, url)
+  router.get('/:item_id/image/:image_id',(req, res)=>{
+    var sql = "SELECT * FROM item_image WHERE item_id = ? AND image_id = ?";
+    db.query(sql,[req.params.item_id, req.params.image_id] ,(err, raws, fields)=>{
+      if(err){
+        console.log(err);
+        res.status(500).send("QUERY_FAIL");
       }else{
         res.send(raws);
       }

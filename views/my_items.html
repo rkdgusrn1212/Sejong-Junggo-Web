@@ -1,8 +1,8 @@
 <% include header.html.ejs %>
-	<section class="container" style="margin-top: 80px;max-width: 800px;">
+	<section  class="col-sm-6 col-sm-offset-3">
 		<div class="panel panel-primary">
-		<div class="panel-body">
-			<h4 class="page-header">거래중인 게시물 목록</h4>
+			<div class="panel-heading">거래중인 게시물 목록</div>
+		<div id="deal_list" class="panel-body">
 			<div class="my-req-list">
 				<div class="clearfix">
 					<div class="pull-left">
@@ -58,61 +58,16 @@
 	</div>
 
 		<div class="panel panel-warning">
-			<div class="panel-body">
-		<h4 class="page-header">수정중인 게시물 목록</h4>
-		<div class="my-req-list">
-			<div class="clearfix">
-				<div class="pull-left">
-					<img src="https://cdn.shopify.com/s/files/1/0787/5255/products/Bando_complimentpencilset-bts16.jpg?v=1525806099" alt="" width="100" />
-				</div>
-				<div class="pull-left" style="margin-left: 30px;padding-top: 20px;">
-					<strong>지우개 연필</strong><br />
-					<span>₩2,500원</span><br />
-					<span>2018-06-01 12:12:12</span>
-				</div>
-				<div class="pull-right" style="padding-top: 30px;">
-					<a href="#" class="btn btn-warning" style="margin-bottom: 10px;">편집</a><br />
-					<a href="#" class="btn btn-danger">삭제</a>
-				</div>
-			</div>
-		</div>
-		<div class="my-req-list">
-			<div class="clearfix">
-				<div class="pull-left">
-					<img src="https://cdn.shopify.com/s/files/1/0787/5255/products/Bando_complimentpencilset-bts16.jpg?v=1525806099" alt="" width="100" />
-				</div>
-				<div class="pull-left" style="margin-left: 30px;padding-top: 20px;">
-					<strong>지우개 연필</strong><br />
-					<span>₩2,500원</span><br />
-					<span>2018-06-01 12:12:12</span>
-				</div>
-				<div class="pull-right" style="padding-top: 30px;">
-					<a href="#" class="btn btn-warning" style="margin-bottom: 10px;">편집</a><br />
-					<a href="#" class="btn btn-danger">삭제</a>
-				</div>
-			</div>
-		</div>
-		<div class="my-req-list">
-			<div class="clearfix">
-				<div class="pull-left">
-					<img src="https://cdn.shopify.com/s/files/1/0787/5255/products/Bando_complimentpencilset-bts16.jpg?v=1525806099" alt="" width="100" />
-				</div>
-				<div class="pull-left" style="margin-left: 30px;padding-top: 20px;">
-					<strong>지우개 연필</strong><br />
-					<span>₩2,500원</span><br />
-					<span>2018-06-01 12:12:12</span>
-				</div>
-				<div class="pull-right" style="padding-top: 30px;">
-					<a href="#" class="btn btn-warning" style="margin-bottom: 10px;">편집</a><br />
-					<a href="#" class="btn btn-danger">삭제</a>
-				</div>
-			</div>
-		</div>
+
+			<div class="panel-heading">수정중인 게시물 목록</div>
+			<div id="modify_list" class="panel-body">
+
 	</div>
 	</div>
 		<div class="panel panel-success">
-			<div class="panel-body">
-		<h4 class="page-header">판매중인 게시물 목록</h4>
+
+						<div class="panel-heading">판매중인 게시물 목록</div>
+			<div id="sale_list" class="panel-body">
 		<div class="my-req-list">
 			<div class="clearfix">
 				<div class="pull-left">
@@ -165,17 +120,55 @@
 	</div>
 	</section>
 	<script>
-	let readyItems;//판매 대기중인 상품들
-	let saleItems;//판매중인 상품들
-	let dealItems;//거래중인 상품들.
 	//주인 id
 	var ownerId = <%- '"'+user.auth_id+'"' %>;
-	//대기상품정보 불러오기
+	//수정중인 상품정보 불러오기
 	$.get("/item",{
 		owner_id:ownerId,
 		item_state:'M'
 	}).done((data)=>{
-		readyItems = data;
+		for(let i =0 ;i<data.length;i++){
+			//이미지 생성
+			let image = new Image();
+			image.src="/image/round_wallpaper_black_48dp.png";
+			image.alt = "";
+			image.width = 100;
+			image.id = data[i].item_id+":"+data[i].item_main_image;
+			if(data[i].item_main_image!=null){
+				image.src="/image/round_cached_black_48dp.png";
+				$.get("/item/"+data[i].item_id+"/image/"+data[i].item_main_image).done((result)=>{
+					if(result.length===1){
+						image.src=result[0].thumb_micro_url;
+					}else{
+						image.src= "/image/round_error_black_48dp.png"
+					}
+				}).fail(()=>{
+					image.src="/image/round_error_black_48dp.png"
+				});
+			}
+
+			//이미지 랩핑 div
+			let imageDiv = $('<div/>', {
+				class: 'pull-left'});
+			imageDiv.append(image);
+			//상세정보div
+			let specDiv = $('<div class="pull-left" style="margin-left: 30px;padding-top: 20px;"><strong>'+data[i].item_name+'</strong><br /><span>₩'+data[i].item_price+'원</span><br /><span>'+data[i].item_time+'</span></div>');
+			//버튼 div
+			let buttonDiv = $('<div class="pull-right" style="padding-top: 30px;"><a href="#" class="btn btn-warning" style="margin-bottom: 10px;">편집</a><br /><a href="#" class="btn btn-danger">삭제</a></div>');
+			//홀더 div
+			let holderDiv = $('<div />', {
+				class: 'clearfix'
+			});
+			holderDiv.append(imageDiv);
+			holderDiv.append(specDiv);
+			holderDiv.append(buttonDiv);
+			let itemDiv = $('<div />', {
+				class: 'my-req-list',
+				id: "123"
+			});
+			itemDiv.append(holderDiv);
+			$("#modify_list").append(itemDiv);
+		}
 		alert(JSON.stringify(data));
 	}).fail(()=>{
 		alert("내 대기상품정보 불러오기 실패");
@@ -185,7 +178,42 @@
 		owner_id:ownerId,
 		item_state:'S'
 	}).done((data)=>{
-		readyItems = data;
+		for(let i =0 ;i<data.length;i++){
+			//이미지 생성
+			let image = new Image();
+			image.src = "https://cdn.shopify.com/s/files/1/0787/5255/products/Bando_complimentpencilset-bts16.jpg?v=1525806099";
+			image.alt = "";
+			image.width = 100;
+			//이미지 랩핑 div
+			let imageDiv = $('<div/>', {
+				class: 'pull-left'});
+			hodlerDiv.append(image);
+			//상세정보div
+			let specDiv = $('<div/>', {
+				text:"&lt;strong&gt;지우개 연필&lt;/strong&gt;&lt;br /&gt;&lt;span&gt;₩2,500원&lt;/span&gt;&lt;br /&gt;&lt;span&gt;2018-06-01 12:12:12&lt;/span&gt;",
+				class: 'pull-left',
+				style: "margin-left: 30px;padding-top: 20px;"
+			});
+			//버튼 div
+			let buttonDiv = $('<div />', {
+        class: 'pull-right',
+				text:'&lt;a href="#" class="btn btn-warning" style="margin-bottom: 10px;"&gt;편집&lt;/a&gt;&lt;br /&gt;&lt;a href="#" class="btn btn-danger"&gt;삭제&lt;/a&gt;',
+				style: "margin-bottom: 10px;"
+			});
+			//홀더 div
+			let holderDiv = $('<div />', {
+        class: 'clearfix'
+			});
+			holderDiv.append(imageDiv);
+			holderDiv.append(specDiv);
+			holderDiv.append(buttonDiv);
+			let itemDiv = $('<div />', {
+			  class: 'my-req-list',
+				id: "123"
+			});
+			itemDiv.append(holderDiv);
+			$("#modify_list").append(itemDiv);
+		}
 		alert(JSON.stringify(data));
 	}).fail(()=>{
 		alert("내 판매상품정보 불러오기 실패");
