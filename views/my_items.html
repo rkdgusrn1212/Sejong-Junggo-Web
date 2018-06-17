@@ -2,207 +2,267 @@
 	<section  class="col-sm-6 col-sm-offset-3">
 		<div class="panel panel-primary">
 			<div class="panel-heading">거래중인 게시물 목록</div>
-		<div id="deal_list" class="panel-body">
-			<div class="my-req-list">
-				<div class="clearfix">
-					<div class="pull-left">
-						<img src="https://cdn.shopify.com/s/files/1/0787/5255/products/Bando_complimentpencilset-bts16.jpg?v=1525806099" alt="" width="100" />
-					</div>
-					<div class="pull-left" style="margin-left: 30px;padding-top: 20px;">
-						<strong>지우개 연필</strong><br />
-						<span>₩2,500원</span><br />
-						<span>2018-06-01 12:12:12</span><br />
-						<span>Buyer</span>
-					</div>
-					<div class="pull-right" style="padding-top: 30px;">
-						<a href="#" class="btn btn-danger" style="margin-bottom: 10px;">거래취소</a><br />
-						<a href="#" class="btn btn-success">거래완료</a>
-					</div>
-				</div>
-			</div>
-			<div class="my-req-list">
-				<div class="clearfix">
-					<div class="pull-left">
-						<img src="https://cdn.shopify.com/s/files/1/0787/5255/products/Bando_complimentpencilset-bts16.jpg?v=1525806099" alt="" width="100" />
-					</div>
-					<div class="pull-left" style="margin-left: 30px;padding-top: 20px;">
-						<strong>지우개 연필</strong><br />
-						<span>₩2,500원</span><br />
-						<span>2018-06-01 12:12:12</span><br />
-						<span>Buyer</span>
-					</div>
-					<div class="pull-right" style="padding-top: 30px;">
-						<a href="#" class="btn btn-danger" style="margin-bottom: 10px;">거래취소</a><br />
-						<a href="#" class="btn btn-success">거래완료</a>
-					</div>
-				</div>
-			</div>
-			<div class="my-req-list">
-				<div class="clearfix">
-					<div class="pull-left">
-						<img src="https://cdn.shopify.com/s/files/1/0787/5255/products/Bando_complimentpencilset-bts16.jpg?v=1525806099" alt="" width="100" />
-					</div>
-					<div class="pull-left" style="margin-left: 30px;padding-top: 20px;">
-						<strong>지우개 연필</strong><br />
-						<span>₩2,500원</span><br />
-						<span>2018-06-01 12:12:12</span><br />
-						<span>Buyer</span>
-					</div>
-					<div class="pull-right" style="padding-top: 30px;">
-						<a href="#" class="btn btn-danger" style="margin-bottom: 10px;">거래취소</a><br />
-						<a href="#" class="btn btn-success">거래완료</a>
-					</div>
-				</div>
-			</div>
+		<div class="panel-body">
+			<div id="deal_list"></div>
+			<div>
+			<button onclick="onDealPageDown()">이전 목록</button>
+			<button onclick="onDealPageUp()">다음 목록</button>
+		</div>
 		</div>
 	</div>
 
 		<div class="panel panel-warning">
 
 			<div class="panel-heading">수정중인 게시물 목록</div>
-			<div id="modify_list" class="panel-body">
-
-	</div>
-	</div>
+			<div class="panel-body">
+				<div  id="modify_list"></div>
+				<div>
+					<button onclick="onModifyPageDown()">이전 목록</button>
+					<button onclick="onModifyPageUp()">다음 목록</button>
+				</div>
+			</div>
+		</div>
 		<div class="panel panel-success">
 
 						<div class="panel-heading">판매중인 게시물 목록</div>
-			<div id="sale_list" class="panel-body">
-		<div class="my-req-list">
-			<div class="clearfix">
-				<div class="pull-left">
-					<img src="https://cdn.shopify.com/s/files/1/0787/5255/products/Bando_complimentpencilset-bts16.jpg?v=1525806099" alt="" width="100" />
-				</div>
-				<div class="pull-left" style="margin-left: 30px;padding-top: 20px;">
-					<strong>지우개 연필</strong><br />
-					<span>₩2,500원</span><br />
-					<span>2018-06-01 12:12:12</span>
-				</div>
-				<div class="pull-right" style="padding-top: 30px;">
-					<a href="#" class="btn btn-warning" style="margin-bottom: 10px;">편집</a><br />
-					<a href="#" class="btn btn-danger">삭제</a>
-				</div>
+			<div class="panel-body">
+				<div id="sale_list" ></div>
+				<div>
+					<button onclick="onSalePageDown()">이전 목록</button>
+					<button onclick="onSalePageUp()">다음 목록</button>
 			</div>
-		</div>
-		<div class="my-req-list">
-			<div class="clearfix">
-				<div class="pull-left">
-					<img src="https://cdn.shopify.com/s/files/1/0787/5255/products/Bando_complimentpencilset-bts16.jpg?v=1525806099" alt="" width="100" />
-				</div>
-				<div class="pull-left" style="margin-left: 30px;padding-top: 20px;">
-					<strong>지우개 연필</strong><br />
-					<span>₩2,500원</span><br />
-					<span>2018-06-01 12:12:12</span>
-				</div>
-				<div class="pull-right" style="padding-top: 30px;">
-					<a href="#" class="btn btn-warning" style="margin-bottom: 10px;">편집</a><br />
-					<a href="#" class="btn btn-danger">삭제</a>
-				</div>
-			</div>
-		</div>
-		<div class="my-req-list">
-			<div class="clearfix">
-				<div class="pull-left">
-					<img src="https://cdn.shopify.com/s/files/1/0787/5255/products/Bando_complimentpencilset-bts16.jpg?v=1525806099" alt="" width="100" />
-				</div>
-				<div class="pull-left" style="margin-left: 30px;padding-top: 20px;">
-					<strong>지우개 연필</strong><br />
-					<span>₩2,500원</span><br />
-					<span>2018-06-01 12:12:12</span>
-				</div>
-				<div class="pull-right" style="padding-top: 30px;">
-					<a href="#" class="btn btn-warning" style="margin-bottom: 10px;">편집</a><br />
-					<a href="#" class="btn btn-danger">삭제</a>
-				</div>
-			</div>
-		</div>
+
 	</div>
 	</div>
 	</section>
 	<script>
+	let salePage = 0;
+	let modifyPage = 0;
+	let dealPage = 0;
 	//주인 id
 	var ownerId = <%- '"'+user.auth_id+'"' %>;
 	//수정중인 상품정보 불러오기
-	$.get("/item",{
-		owner_id:ownerId,
-		item_state:'M'
-	}).done((data)=>{
-		for(let i =0 ;i<data.length;i++){
-			//이미지 생성
-			let image = new Image();
-			image.src="/image/round_wallpaper_black_48dp.png";
-			image.alt = "";
-			image.width = 100;
-			image.id = data[i].item_id+"-"+data[i].item_main_image;
-			if(data[i].item_main_image!=null){
-				image.src="/image/round_cached_black_48dp.png";
-				$.get("/item/"+data[i].item_id+"/image/"+data[i].item_main_image).done((result)=>{
-					if(result.length===1){
-						image.src=result[0].thumb_micro_url;
-					}else{
-						image.src= "/image/round_error_black_48dp.png"
-					}
-				}).fail(()=>{
-					image.src="/image/round_error_black_48dp.png"
+	const getModifyItems = (pageNum)=>{
+		$("#modify_list").empty();
+		$.get("/item",{
+			owner_id:ownerId,
+			item_state:'M',
+			start:pageNum*5,
+			count:5
+		}).done((data)=>{
+			for(let i =0 ;i<data.length;i++){
+				//이미지 생성
+				let image = new Image();
+				image.src="/image/round_wallpaper_black_48dp.png";
+				image.alt = "";
+				image.width = 100;
+				image.id = data[i].item_id+"-"+data[i].item_main_image;
+				if(data[i].item_main_image!=null){
+					image.src="/image/round_cached_black_48dp.png";
+					$.get("/item/"+data[i].item_id+"/image/"+data[i].item_main_image).done((result)=>{
+						if(result.length===1){
+							image.src=result[0].thumb_micro_url;
+						}else{
+							image.src= "/image/round_error_black_48dp.png"
+						}
+					}).fail(()=>{
+						image.src="/image/round_error_black_48dp.png"
+					});
+				}
+
+				//이미지 랩핑 div
+				let imageDiv = $('<div/>', {
+					class: 'pull-left'});
+				imageDiv.append(image);
+				//시간은 local로 변환
+				let currentTime = new Date(data[i].item_time);
+				//상세정보div
+				let specDiv = $('<div class="pull-left" style="margin-left: 30px;padding-top: 20px;"><strong>'+(data[i].item_name==null?'이름미정':data[i].item_name)+'</strong><br /><span>'+(data[i].item_price==null?'가격미정':('₩'+data[i].item_price+'원'))+'</span><br /><span>'+currentTime.toString()+'</span></div>');
+				//버튼 div
+				let buttonDiv = $('<div class="pull-right" style="padding-top: 10px;"><a href="/edit/'+data[i].item_id+'" class="btn btn-warning" style="margin-bottom: 10px;">편집</a><br /><button class="btn btn-danger" id="'+data[i].item_id+'" onclick="deleteItem(this)">삭제</button></div>');
+				//홀더 div
+				let holderDiv = $('<div />', {
+					class: 'clearfix'
 				});
+				holderDiv.append(imageDiv);
+				holderDiv.append(specDiv);
+				holderDiv.append(buttonDiv);
+				let itemDiv = $('<div class="my-req-list" style="margin-bottom:10px" id="holder-'+data[i].item_id+'" />');
+				itemDiv.append(holderDiv);
+				$("#modify_list").append(itemDiv);
 			}
-
-			//이미지 랩핑 div
-			let imageDiv = $('<div/>', {
-				class: 'pull-left'});
-			imageDiv.append(image);
-			//시간은 local로 변환
-			let currentTime = new Date(data[i].item_time);
-			//상세정보div
-			let specDiv = $('<div class="pull-left" style="margin-left: 30px;padding-top: 20px;"><strong>'+(data[i].item_name==null?'이름미정':data[i].item_name)+'</strong><br /><span>'+(data[i].item_price==null?'가격미정':('₩'+data[i].item_price+'원'))+'</span><br /><span>'+currentTime.toString()+'</span></div>');
-			//버튼 div
-			let buttonDiv = $('<div class="pull-right" style="padding-top: 10px;"><a href="/edit/'+data[i].item_id+'" class="btn btn-warning" style="margin-bottom: 10px;">편집</a><br /><a href="#" class="btn btn-danger" id="'+data[i].item_id+'" onclick="deleteItem(this)">삭제</a></div>');
-			//홀더 div
-			let holderDiv = $('<div />', {
-				class: 'clearfix'
-			});
-			holderDiv.append(imageDiv);
-			holderDiv.append(specDiv);
-			holderDiv.append(buttonDiv);
-			let itemDiv = $('<div class="my-req-list" id="holder-'+data[i].item_id+'" />');
-			itemDiv.append(holderDiv);
-			$("#modify_list").append(itemDiv);
-		}
-		alert(JSON.stringify(data));
-	}).fail(()=>{
-		alert("내 대기상품정보 불러오기 실패");
-	});
+		}).fail(()=>{
+			alert("내 대기상품정보 불러오기 실패");
+		});
+	};
 	//판매상품정보 불러오기
-	$.get("/item",{
-		owner_id:ownerId,
-		item_state:'S'
-	}).done((data)=>{
+	const getSaleItems = (pageNum)=>{
+		$("#sale_list").empty();
+		$.get("/item",{
+			owner_id:ownerId,
+			item_state:'S',
+			start:pageNum*5,
+			count:5
+		}).done((data)=>{
+			for(let i =0 ;i<data.length;i++){
+				//이미지 생성
+				let image = new Image();
+				image.src="/image/round_wallpaper_black_48dp.png";
+				image.alt = "";
+				image.width = 100;
+				image.id = data[i].item_id+"-"+data[i].item_main_image;
+				if(data[i].item_main_image!=null){
+					image.src="/image/round_cached_black_48dp.png";
+					$.get("/item/"+data[i].item_id+"/image/"+data[i].item_main_image).done((result)=>{
+						if(result.length===1){
+							image.src=result[0].thumb_micro_url;
+						}else{
+							image.src= "/image/round_error_black_48dp.png"
+						}
+					}).fail(()=>{
+						image.src="/image/round_error_black_48dp.png"
+					});
+				}
 
-		alert(JSON.stringify(data));
-	}).fail(()=>{
-		alert("내 판매상품정보 불러오기 실패");
-	});
+				//이미지 랩핑 div
+				let imageDiv = $('<div/>', {
+					class: 'pull-left'});
+				imageDiv.append(image);
+				//시간은 local로 변환
+				let currentTime = new Date(data[i].item_time);
+				//상세정보div
+				let specDiv = $('<div class="pull-left" style="margin-left: 30px;padding-top: 20px;"><strong>'+(data[i].item_name==null?'이름미정':data[i].item_name)+'</strong><br /><span>'+(data[i].item_price==null?'가격미정':('₩'+data[i].item_price+'원'))+'</span><br /><span>'+currentTime.toString()+'</span></div>');
+				//버튼 div
+				let buttonDiv = $('<div class="pull-right" style="padding-top: 10px;"><a href="/edit/'+data[i].item_id+'" class="btn btn-warning" style="margin-bottom: 10px;">편집</a><br /><button class="btn btn-danger" id="'+data[i].item_id+'" onclick="deleteItem(this)">삭제</button></div>');
+				//홀더 div
+				let holderDiv = $('<div />', {
+					class: 'clearfix'
+				});
+				holderDiv.append(imageDiv);
+				holderDiv.append(specDiv);
+				holderDiv.append(buttonDiv);
+				let itemDiv = $('<div class="my-req-list" style="margin-bottom:10px" id="holder-'+data[i].item_id+'" />');
+				itemDiv.append(holderDiv);
+				$("#sale_list").append(itemDiv);
+			}
+		}).fail(()=>{
+			alert("내 판매상품정보 불러오기 실패");
+		});
+	}
+
 	//거래상품정보 불러오기
-	$.get("/item",{
-		owner_id:ownerId,
-		item_state:'D'
-	}).done((data)=>{
-		readyItems = data;
-		alert(JSON.stringify(data));
-	}).fail(()=>{
-		alert("내 대기상품정보 불러오기 실패");
-	});
+	const getDealItems = (pageNum)=>{
+		$("#deal_list").empty();
+		$.get("/item",{
+			owner_id:ownerId,
+			item_state:'D',
+			start:pageNum*5,
+			count:5
+		}).done((data)=>{
+			for(let i =0 ;i<data.length;i++){
+				//이미지 생성
+				let image = new Image();
+				image.src="/image/round_wallpaper_black_48dp.png";
+				image.alt = "";
+				image.width = 100;
+				image.id = data[i].item_id+"-"+data[i].item_main_image;
+				if(data[i].item_main_image!=null){
+					image.src="/image/round_cached_black_48dp.png";
+					$.get("/item/"+data[i].item_id+"/image/"+data[i].item_main_image).done((result)=>{
+						if(result.length===1){
+							image.src=result[0].thumb_micro_url;
+						}else{
+							image.src= "/image/round_error_black_48dp.png"
+						}
+					}).fail(()=>{
+						image.src="/image/round_error_black_48dp.png"
+					});
+				}
 
-	function deleteItem(obj){
+				//이미지 랩핑 div
+				let imageDiv = $('<div/>', {
+					class: 'pull-left'});
+				imageDiv.append(image);
+				//시간은 local로 변환
+				let currentTime = new Date(data[i].item_time);
+				//상세정보div
+				let specDiv = $('<div class="pull-left" style="margin-left: 30px;padding-top: 20px;"><strong>'+(data[i].item_name==null?'이름미정':data[i].item_name)+'</strong><br /><span>'+(data[i].item_price==null?'가격미정':('₩'+data[i].item_price+'원'))+'</span><br /><span>'+currentTime.toString()+'</span></div>');
+				//버튼 div
+				let buttonDiv = $('<div class="pull-right" style="padding-top: 10px;"><a href="/edit/'+data[i].item_id+'" class="btn btn-warning" style="margin-bottom: 10px;">편집</a><br /><button class="btn btn-danger" id="'+data[i].item_id+'" onclick="deleteItem(this)">삭제</button></div>');
+				//홀더 div
+				let holderDiv = $('<div />', {
+					class: 'clearfix'
+				});
+				holderDiv.append(imageDiv);
+				holderDiv.append(specDiv);
+				holderDiv.append(buttonDiv);
+				let itemDiv = $('<div class="my-req-list" style="margin-bottom:10px" id="holder-'+data[i].item_id+'" />');
+				itemDiv.append(holderDiv);
+				$("#deal_list").append(itemDiv);
+			}
+		}).fail(()=>{
+			alert("내 거래상품정보 불러오기 실패");
+		});
+	}
+
+	const deleteItem = (obj)=>{
 		$.ajax({
 			url:"/item/"+obj.id,
 			type:"DELETE"
 		}).done(()=>{
-			alert(obj.id+"삭제 성공");
 			$("#holder-"+obj.id).remove();
+			getDealItems(dealPage);
+			getSaleItems(salePage);
+			getModifyItems(modifyPage);
 		}).fail(()=>{
 			alert("삭제 실패");
 		});
 	}
+
+	const onDealPageUp = ()=>{
+		dealPage++;
+		getDealItems(dealPage);
+	}
+
+	const onDealPageDown = ()=>{
+		if(dealPage > 0){
+			dealPage--;
+		}else{
+			alert("이전 페이지가 없습니다.");
+		}
+		getDealItems(dealPage);
+	}
+
+	const onModifyPageUp = ()=>{
+		modifyPage++;
+		getModifyItems(modifyPage);
+	}
+
+	const onModifyPageDown = ()=>{
+		if(modifyPage > 0){
+			modifyPage--;
+		}else{
+			alert("이전 페이지가 없습니다.");
+		}
+		getModifyItems(modifyPage);
+	}
+
+	const onSalePageUp = ()=>{
+		salePage++;
+		getSaleItems(salePage);
+	}
+
+	const onSalePageDown = ()=>{
+		if(salePage > 0){
+			salePage--;
+		}else{
+			alert("이전 페이지가 없습니다.");
+		}
+		getSaleItems(salePage);
+	}
+
+	getDealItems(dealPage);
+	getSaleItems(salePage);
+	getModifyItems(modifyPage);
 	</script>
 <% include footer.html.ejs %>
