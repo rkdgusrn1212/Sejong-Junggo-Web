@@ -22,7 +22,7 @@ const findCategoryByImagePath = (path, callback)=>{
          console.log('ERROR:', e);
          callback(e);
        }else{
-         callback(null,JSON.stringify(d)); //콜백으로 결과 받아옴.
+         callback(null,d); //콜백으로 결과 받아옴.
        }
   })
 }
