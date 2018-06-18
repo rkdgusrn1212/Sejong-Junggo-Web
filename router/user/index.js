@@ -38,6 +38,17 @@ router.get('/', (req, res)=>{
 	});
 });
 
+router.get('/:id', (req, res)=>{
+	db.query("select * from user where auth_id = ?",[req.params.id],(err,row,feild)=>{
+		if(err){
+			console.log(err);
+			res.status(500).send("query failed");
+		}else{
+			res.send(row);
+		}
+	});
+});
+
 router.put('/', (req, res)=>{
 	if(!req.isAuthenticated()){
 		res.redirect('/login');

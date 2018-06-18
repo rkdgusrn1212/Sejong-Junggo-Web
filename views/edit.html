@@ -14,21 +14,22 @@
           <table>
             <tr>
               <td><label class="mylabel" for="name">상품이름:</label></td>
-              <td><input class="myInputText" id="name" type="text" name="itemName" autocomplete="off"></td>
+              <td><input class="myInputText" id="name" type="text" name="itemName" autocomplete="off"/></td>
             </tr>
             <tr>
               <td><label class="mylabel" for="category">카테고리:</label></td>
-              <td><input class="myInputText" id="category" type="text" name="itemCategoty" autocomplete="off"></td>
+              <td><input class="myInputText" style="width:100px" type="text" id="category" autocomplete="off"/><button type="button" onclick="createCategory()">카테고리 생성</button><div id="category_holder"></div></td><!--카테고리 추가 삭제를 버튼으로 수정.-->
             </tr>
             <tr>
               <td><label class="mylabel" for="price">상품가격:</label></td>
-              <td><input class="myInputText" id="price" type="text" name="itemPrice" autocomplete="off"></td>
+              <td><input class="myInputText" style="width:100px" id="price" type="text" name="itemPrice" autocomplete="off"/><button type="button" onclick="getMarketPrice()">시세가 불러오기</button></td>
             </tr>
             <tr>
               <td><label class="mylabel" for="trade">거래방식:</label></td>
-              <td><input class="myInputText" id="trade" type="text" name="itemTrade" autocomplete="off"></td>
+              <td><input class="myInputText" id="trade" type="text" name="itemTrade" autocomplete="off"/></td>
             </tr>
           </table>
+          <button type="button" onclick="extractCategory()">메인 이미지로 카테고리 추출</button>
         </div>
         <!--업로드 한 상품 이미지 미리보기-->
         <div id="productIMGs" onwheel="scrollControl(event)">
@@ -44,7 +45,9 @@
           <!--상품 상세 설명-->
           <textarea id="textArea" name="itemExp" rows="8" cols="100">상세 설명 입력</textarea>
 
-         <button id="submitButton" type="button">등록하기</button>
+          <button id="submitButton" type="button">저장하기</button>
+
+          <button id="saleButton" type="button" onclick="saleItem()">판매 둥록하기</button><!--등록하기 버튼 추가-->
         </form>
       </section>
       </div>
@@ -130,6 +133,15 @@
         alert("상품 이미지 불러오기 실패");
         window.location.replace('/');
       });
+      //item의 카테고리들 불러오기
+      $.get("/item/"+itemId+"/category").done((result)=>{
+        $('#category_holder').empty();
+        for(let i =0; i<result.length;i++){
+          $('#category_holder').append($('<button type="button" onclick="deleteCategory(this)" id="category-'+result[i].category+'">'+result[i].category+'</button>'));
+        }
+      }).fail(()=>{
+        alert("상품 카테고리 가져오기 실패");
+      });
     }).fail(()=>{
       alert("상품 데이터 불러오기 실패");
       window.location.replace('/');
@@ -201,13 +213,6 @@
         Leaderholder.innerHTML = '';
         //이미지 태그를 지정한 곳에 붙임
         Leaderholder.appendChild(img);
-        $.get('/category',{
-          path:itemImages[img.id].url
-        }).done((data)=>{
-          alert(JSON.stringify(data));
-        }).fail(()=>{
-          alert("카테고리 추출 실패");
-        });
       }
 
       //등록하기 버튼 누르면 상품 업데이트 호출
@@ -246,6 +251,106 @@
           }
         }).fail(()=>{
           alert("이미지 삭제 실패");
+        });
+      }
+
+      //카테고리 생성 메소드 호출.
+      const createCategory = (name)=>{
+        let categoryName;
+        if(name!=null){
+          categoryName = name;
+        }else{
+          if($('#category').val().length==0){
+
+            alert("카테고리의 이름을 입력하세요");
+            return;
+          }else{
+            categoryName = $('#category').val();
+          }
+        }
+        $.post("/item/"+itemId+"/category",{
+          category:categoryName
+        }).done((data)=>{
+          $('#category_holder').append($('<button type="button" onclick="deleteCategory(this)" id="category-'+data.category+'">'+data.category+'</button>'));
+        }).fail(()=>{
+
+        });
+      }
+      //카테고리 삭제 메소드 호출
+      const deleteCategory = (obj)=>{
+        $.ajax({
+          url:"/item/"+itemId+"/category/"+obj.id.substring(9),
+          type:"DELETE"
+        }).done(()=>{
+          obj.remove();
+        }).fail(()=>{
+          alert("카테고리 삭제 실패");
+        });
+      }
+
+      //시세가 불러오기
+      const getMarketPrice = ()=>{
+        $.get("/market_price",{
+          item_name:$('#name').val()
+        }).done((data)=>{
+          $('#price').val(data.item_price);
+        }).fail(()=>{
+          alert("시세가 불러오기 실패");
+        });
+      }
+
+      const saleItem = ()=>{
+        if($('#name').val().length<1){
+          alert("이름을 입력하세요");
+          return;
+        }
+        if($('#trade').val().length<1){
+          alert("거래방식을 입력하세요");
+          return;
+        }
+        if($('#price').val().length<1){
+          alert("가격을 입력하세요");
+          return;
+        }
+        if($('#leaderIMGHolder').children()[0].id == ''){
+          alert("대표 이미지를 선택하세요");
+          return;
+        }
+        $.ajax({
+          type:'PUT',
+          url:"/item/"+itemId,
+          data:JSON.stringify({
+            item_name:$('#name').val(),
+            item_method:$('#trade').val(),
+            item_price:$('#price').val(),
+            item_specific:$('#textArea').val(),
+            item_main_image:$('#leaderIMGHolder').children()[0].id,
+            item_state:'S'
+          }),
+          dataType: 'json',
+          contentType:"application/json; charset=UTF-8"
+        }).done(()=>{
+          alert("상품이 판매등록 되었습니다");
+          window.location.replace('/');
+        }).fail(()=>{
+          alert("상품 등록 실패");
+        });
+      }
+
+      //메인이미지로 카테고리 추출 메소드, 메인이미지 없으면 그냥 리턴
+      const extractCategory = ()=>{
+        if($('#leaderIMGHolder').children()[0].id==''){
+          alert("메인이미지를 설정 하세요");
+          return;
+        }
+        $.get('/category',{
+          path:itemImages[$('#leaderIMGHolder').children()[0].id].url
+        }).done((data)=>{
+          for(let i =0 ;i < data.categories.length; i++){
+            createCategory(data.categories[i]);
+          }
+        }).fail(()=>{
+          alert("카테고리 추출 실패");
         });
       }
     </script>

@@ -59,9 +59,9 @@ module.exports = function(app){
   });
   app.get('/search',(req, res)=>{
     if(req.session.passport==null||req.session.passport.user==null){
-      res.render('search.html',{login:false, page:'search'});
+      res.render('search.html',{login:false, page:'search', query:req.query});
     }else{
-      res.render('search.html',{login:true, user:req.session.passport.user, page:'search'});
+      res.render('search.html',{login:true, user:req.session.passport.user, page:'search', query:req.query});
     }
   });
   app.get('/post',(req, res)=>{

@@ -27,6 +27,7 @@ const findCategoryByImagePath = (path, callback)=>{
   })
 }
 
+//이미지로 카테고리를 쿼리하는 메소드
 router.get('/',(req, res)=>{
   if(req.query.path != null){
     findCategoryByImagePath(req.query.path,(err, result)=>{
@@ -36,18 +37,13 @@ router.get('/',(req, res)=>{
       }else{
         console.log(result);
         if(result.responses[0].labelAnnotaions.length>0){
-          let category = result.responses[0].labelAnnotaions[0].description;
-            db.query("INSERT INTO category ( category_name )VALUES( ? )",[category],(err,result)=>{
-              if(err){
-                console.log(err);
-                res.status(500).send('QUERY_FAIL');
-              }else{
-                res.send({
-                  category_id:result.insertId,
-                  category_name:result
-                });
-              }
-            });
+          //쓸데없는 퍼센트 데이터 날리고 카테고리 라벨만 배열로 가공.
+          let categorys = result.responses[0].labelAnnotaions;
+          let resultCategory = [];
+          for(let i = 0 ;i< categorys.length; i++){
+            resultCategory.push(categorys[i].description);
+          }
+          res.send({categories:resultCategory});
         }else{
           res.status(400).send('NO_CATEGORY');
         }

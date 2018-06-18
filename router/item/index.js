@@ -17,11 +17,11 @@ default  = 15;
 //item_time 반환 형식 ISO-8601 세계 표준시 기준.
 //item_state는 필수
 router.get('/', function(req, res){
-	var sql = "SELECT item_id, item_name, item_price, owner_id, item_time, item_state, item_main_image FROM item WHERE item_state = '";
+	var sql = "SELECT item_id, item_name, item_price, owner_id, item_time, item_state, item_main_image FROM item WHERE ";
 	if(req.query.item_state){
-		sql+= req.query.item_state+"'"
+		sql+= "item_state = '"+req.query.item_state+"'"
 	}else{
-		sql+= "S'"
+		sql+= "item_state <> '"+req.query.item_state+"'"
 	}
 	if(req.query.item_name){
 		sql+=" AND item_name like '%"+req.query.item_name+"%'";
@@ -102,64 +102,48 @@ router.post('/', (req, res)=>{
 //body에 업데이트될 컬럼들을 JSON형태로 전송, ex) body{"item_name"="면도기"}, 저장버튼을 누를때 호출되면 될 듯
 router.put('/:id', (req, res)=>{
 
-		console.log(req.body);
-	if(req.body.item_state=='S'){//판매중인 상태로 갱신
-		let sql = "UPDATE item SET item_time = NOW(), item_state='S' WHERE item_state<>'S' AND item_name not null AND item_price not null AND item_method not null AND item_main_image not null AND item_id = '"+req.params.id+"'";
-		db.query(sql, (err, raws, fields)=>{
+	console.log(req.body);
+	if(req.body.item_state){
+		itemState = req.body.item_state;
+	}else{
+		//나머지 상태는 전부 대기(수정중) 상태로 갱신.
+		itemState = 'M';
+	}
+	console.log(req.body);
+	let sql = "UPDATE item SET item_state='"+itemState+"',";
+	let validation = false;
+	if(req.body.item_name){
+		sql+=" item_name = '"+req.body.item_name+"',";
+		validation = true;
+	}
+	if(req.body.item_specific){
+		sql+=" item_specific = '"+req.body.item_specific+"',";
+		validation = true;
+	}
+	if(req.body.item_price){
+		sql+=" item_price = '"+req.body.item_price+"',";
+		validation = true;
+	}
+	if(req.body.item_method){
+		sql+=" item_method = '"+req.body.item_method+"',";
+		validation = true;
+	}
+	//양의 정수 정규식
+	let regex = /^[1-9][0-9]*$/;
+	if(regex.test(req.body.item_main_image)){
+		sql+=" item_main_image = '"+req.body.item_main_image+"',"
+		validation = true;
+	}
+	if(validation){
+		sql+= " item_time = NOW() WHERE item_id = "+req.params.id;
+		db.query(sql, (err, result)=>{
 			if(err){
-				res.status(500).send("query failed");
+				console.log(err);
+				res.status(500).send("QUERY_FAIL");
 			}else{
-				res.send(raws);
+				res.send({result:"SUCCESS"});
 			}
 		});
-	}else if(req.body.item_state=='D'){//거래중인 상태로 갱신
-		let sql = "UPDATE item SET item_time = NOW(), item_state='D' WHERE item_state = 'S'";
-		db.query(sql, (err, raws, fields)=>{
-			if(err){
-				res.status(500).send("query failed");
-			}else{
-				res.send(raws);
-			}
-		});
-	}else if(req.body.item_state==null){//나머지 상태는 전부 대기(수정중) 상태로 갱신.
-		console.log(req.body);
-		let sql = "UPDATE item SET item_state='M',";
-		let validation = false;
-		if(req.body.item_name){
-			sql+=" item_name = '"+req.body.item_name+"',";
-			validation = true;
-		}
-		if(req.body.item_specific){
-			sql+=" item_specific = '"+req.body.item_specific+"',";
-			validation = true;
-		}
-		if(req.body.item_price){
-			sql+=" item_price = '"+req.body.item_price+"',";
-			validation = true;
-		}
-		if(req.body.item_method){
-			sql+=" item_method = '"+req.body.item_method+"',";
-			validation = true;
-		}
-		//양의 정수 정규식
-		let regex = /^[1-9][0-9]*$/;
-		if(regex.test(req.body.item_main_image)){
-			sql+=" item_main_image = '"+req.body.item_main_image+"',"
-			validation = true;
-		}
-		if(validation){
-			sql+= " item_time = NOW() WHERE item_id = "+req.params.id;
-			db.query(sql, (err, result)=>{
-				if(err){
-					console.log(err);
-					res.status(500).send("QUERY_FAIL");
-				}else{
-					res.send({result:"SUCCESS"});
-				}
-			});
-		}else{
-			res.status(400).send("BODY_VALIDATION_FAIL");
-		}
 	}else{
 		res.status(400).send("BODY_VALIDATION_FAIL");
 	}
@@ -176,5 +160,44 @@ router.delete('/:id', (req, res)=>{
 		}
 	});
 });
+
+//해당 아이템의 카테고리를 하나 추가 {category : 이름}
+router.post('/:id/category',(req, res)=>{
+	db.query("INSERT INTO item_category (item_id, category) VALUES (?, ?)",[req.params.id, req.body.category],(err, result)=>{
+		if(err){
+			console.log(err);
+			res.status(500).send('QUERY_FAIL');
+		}else{
+			console.log(req.body.category);
+			res.send({category:req.body.category});
+		}
+	});
+});
+
+//해당 아이템의 해당 카테고리를 제거
+router.delete('/:id/category/:category',(req, res)=>{
+	let sql = "DELETE FROM item_category WHERE item_id = "+req.params.id+" AND category = '"+req.params.category+"'";
+	console.log(sql);
+	db.query(sql,(err, result)=>{
+		if(err){
+			console.log(err);
+			res.status(500).send('QUERY_FAIL');
+		}else{
+			res.send({result:"SUCCESS"});
+		}
+	});
+});
+
+router.get('/:id/category',(req,res)=>{
+	db.query("SELECT * FROM item_category WHERE item_id = ?",[req.params.id],(err, result)=>{
+		if(err){
+			console.log(err);
+			res.status(500).send('QUERY_FAIL');
+		}else{
+			res.send(result);
+		}
+	});
+});
+
 
 module.exports = router;
