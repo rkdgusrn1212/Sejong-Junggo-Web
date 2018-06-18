@@ -2,6 +2,7 @@ var bodyParser = require('body-parser');
 var user = require('./user');
 var item = require('./item');
 var login = require('./login');
+var category = require('./category');
 var passport = require('passport');
 var session = require('express-session');
 var sessionSecret = require('../secret/session');
@@ -22,6 +23,7 @@ module.exports = function(app){
   app.use('/login',login);
   app.use('/user',user);
   app.use('/item', item);
+  app.use('/category',category);
   app.get('/',function(req, res){
     if(req.session.passport==null||req.session.passport.user==null){
       res.render('main.html',{login:false, page:'main'});
@@ -111,10 +113,15 @@ module.exports = function(app){
     const py = spawn('python', ['Danawa_crawling.py', queryText]);
     py.stdout.on('data', function(data){
       let price = data.toString();
-      res.send({
-        item_name:queryText,
-        item_price:price.substring(0,price.length-2)
-      });
+      let subPrice = price.substring(0,price.length-2);
+      if(subPrice == -1){
+        res.status(400).send("NO_MARKET_PRICE");
+      }else{
+        res.send({
+          item_name:queryText,
+          item_price:subPrice
+        });
+      }
     });
-  })
+  });
 };

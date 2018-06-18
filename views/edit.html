@@ -201,6 +201,13 @@
         Leaderholder.innerHTML = '';
         //이미지 태그를 지정한 곳에 붙임
         Leaderholder.appendChild(img);
+        $.get('/category',{
+          path:itemImages[img.id].url
+        }).done((data)=>{
+          alert(JSON.stringify(data));
+        }).fail(()=>{
+          alert("카테고리 추출 실패");
+        });
       }
 
       //등록하기 버튼 누르면 상품 업데이트 호출
