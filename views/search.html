@@ -4,16 +4,16 @@
       <section>
         <div id="sort">
           <ul id="sortItems">
-            <li class="sortItem" onclick="loadListByName(null,'asc','',0)">저가우선</li>
-            <li class="sortItem" onclick="loadListByName(null,'desc','',0)">고가우선</li>
-            <li class="sortItem" onclick="loadListByName(null,'','desc',0)">최신순</li>
-            <li class="sortItem" onclick="loadListByName(null,'','asc',0)">오래된순</li>
+            <li class="sortItem" onclick="setPrice('asc')">저가우선</li>
+            <li class="sortItem" onclick="setPrice('desc')">고가우선</li>
+            <li class="sortItem" onclick="setDate('desc')">최신순</li>
+            <li class="sortItem" onclick="setDate('asc')">오래된순</li>
           </ul>
         </div>
         <div id="filter">
           <ul id="filterItems">
-            <li class="filterItem">카테고리 일치</li>
-            <li class="filterItem">상품명 일치</li>
+            <li class="filterItem" onclick="setCategory(true)">카테고리 일치</li>
+            <li class="filterItem" onclick="setCategory(false)">상품명 일치</li>
           </ul>
         </div>
         <ul id="articleSection">
@@ -23,20 +23,18 @@
     </div>
     <script>
     const itemName = <%- '"'+query.item_name+'"' %>; //query인자 값 받기
+    let page = 0;
+    let price = null;
+    let date = null;
+    let category = false;
 
     //이름으로 로드하기 네임은 키값 프라이스랑 데이트는 asc와 desc를 지원 page는 페이지네이션
-    const loadListByName = (name, price, date, page)=>{
-      let keyName;
-      if(name == null){
-        keyName = itemName;
-      }else{
-        keyName = name;
-      }
+    const loadListByName = ()=>{
 
       $.get("/item",{
-        item_name:keyName,
+        item_name:itemName,
         item_price:price,
-        item_data:date,
+        item_time:date,
         start:page*6,
         count:6
       }).done((data)=>{
@@ -55,7 +53,12 @@
           });
           let firstDiv = $('<div></div>');
           let priceDiv = $('<div class="itemPrice">'+data[i].item_price+'</div>');
-          let nameDiv = $('<div class="itemName">'+data[i].item_name+'</div>');
+          let nameText = data[i].item_name;
+          if(nameText.length > 8){
+            nameText.substring(0,8);
+            nameText+="...";
+          }
+          let nameDiv = $('<div class="itemName">'+nameText+'</div>');
           firstDiv.append(nameDiv);
           firstDiv.append(priceDiv);
           let secondDiv = $('<div></div>');
@@ -80,17 +83,18 @@
         alert("상품 리스트 불러오기 실패");
       });
     };
-    loadListByName(itemName, 'desc', 'desc', 0);
+    loadListByName();
 
     //카테고리로 로드.
-    const loadListByCategory = (category, price, date, page)=>{
+    const loadListByCategory = ()=>{
       $.get("/item",{
-        item_name:name,
+        category:itemName,
+        item_time:date,
         item_price:price,
-        item_data:date,
         start:page*6,
         count:6
       }).done((data)=>{
+        alert(JSON.stringify(data));
         $('#articleSection').empty();
         for(let i= 0;i<data.length;i++){
           let currentTime = new Date(data[i].item_time); //local시간으로 변환
@@ -130,6 +134,42 @@
       }).fail(()=>{
         alert("상품 리스트 불러오기 실패");
       });
+    }
+
+    const loadList = ()=>{
+      if(category){
+        loadListByCategory();
+      }else{
+        loadListByName();
+      }
+    }
+
+    const onPageUp = ()=>{
+      page++;
+      loadList();
+    }
+
+    const onPageDown = ()=>{
+      if(page>0){
+        page--;
+      }
+      loadList();
+    }
+
+    const setDate = (param)=>{
+      date = param;
+      price = null;
+      loadList();
+    }
+    const setPrice = (param)=>{
+      price = param;
+      date = null;
+      loadList();
+    }
+
+    const setCategory = (param)=>{
+      category = param;
+      loadList();
     }
     </script>
 <% include footer.html.ejs %>

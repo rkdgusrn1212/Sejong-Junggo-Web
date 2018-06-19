@@ -29,6 +29,10 @@ router.get('/', function(req, res){
 	if(req.query.owner_id){
 	 sql+=" AND owner_id like '%"+req.query.owner_id+"%'";
 	}
+	if(req.query.category){
+		sql = "SELECT item.item_id, item.item_name, item.item_price, item.owner_id, item.item_time, item.item_state, item.item_main_image, item_category.category FROM item INNER JOIN item_category ON item.item_id = item_category.item_id WHERE item_category.category = '"+req.query.category+"'";
+	}
+
 
 	if(req.query.item_price==='desc'){
 		sql+=' order by item_price desc, item_time desc';
