@@ -75,7 +75,7 @@
             $('#image-'+result[0].image_id).attr("src",result[0].thumb_url);
           });
           articleImgDiv.append(img);
-          let itemArticle = $('<li class="article"></li>');
+          let itemArticle = $('<li class="article" onclick="goPost('+data[i].item_id+')"></li>');
           itemArticle.append(articleImgDiv);
           itemArticle.append(itemInfoDiv);
           $('#articleSection').append(itemArticle);
@@ -172,6 +172,9 @@
     const setCategory = (param)=>{
       category = param;
       loadList();
+    }
+    const goPost = (id)=>{
+      window.location.replace('/post/'+id);
     }
     </script>
 <% include footer.html.ejs %>

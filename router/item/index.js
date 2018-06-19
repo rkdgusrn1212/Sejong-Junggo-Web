@@ -21,7 +21,7 @@ router.get('/', function(req, res){
 	if(req.query.item_state){
 		sql+= "item_state = '"+req.query.item_state+"'"
 	}else{
-		sql+= "item_state <> '"+req.query.item_state+"'"
+		sql+= "item_state <> 'M'"
 	}
 	if(req.query.item_name){
 		sql+=" AND item_name like '%"+req.query.item_name+"%'";
