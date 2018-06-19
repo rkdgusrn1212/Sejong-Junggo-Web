@@ -18,6 +18,8 @@
         </div>
         <ul id="articleSection">
         </ul>
+        <button onclick="onPageDown()">이전 페이지</button>
+        <button onclick="onPageUp()">다음 페이지</button>
       </section>
       </div>
     </div>
@@ -30,7 +32,6 @@
 
     //이름으로 로드하기 네임은 키값 프라이스랑 데이트는 asc와 desc를 지원 page는 페이지네이션
     const loadListByName = ()=>{
-
       $.get("/item",{
         item_name:itemName,
         item_price:price,
@@ -42,14 +43,14 @@
         for(let i= 0;i<data.length;i++){
 				  let currentTime = new Date(data[i].item_time); //local시간으로 변환
           let dateDiv = $('<div class="itemDate">'+(data[i].item_state=='D'?"거래중":"판매중")+"&nbsp&nbsp"+currentTime.toString().substring(11,currentTime.toString().length-17)+'</div>');
-          let userDiv = $('<div class="itemUser" id="'+data[i].owner_id+'-owner">'+"이름 로드실패"+'</div>');
+          let userDiv = $('<div class="itemUser">'+"이름 로드실패"+'</div>');
           $.get("/user/"+data[i].owner_id).done((result)=>{
             let str = result[0].user_id;
             if(str.length>6){
               str = str.substring(0, 6);
               str+="..."
             }
-            $("#"+result[0].auth_id+"-owner").html(str);
+            userDiv.html(str);
           });
           let firstDiv = $('<div></div>');
           let priceDiv = $('<div class="itemPrice">'+data[i].item_price+'</div>');
@@ -94,7 +95,6 @@
         start:page*6,
         count:6
       }).done((data)=>{
-        alert(JSON.stringify(data));
         $('#articleSection').empty();
         for(let i= 0;i<data.length;i++){
           let currentTime = new Date(data[i].item_time); //local시간으로 변환
@@ -152,6 +152,8 @@
     const onPageDown = ()=>{
       if(page>0){
         page--;
+      }else{
+        alert("첫 페이지 입니다.");
       }
       loadList();
     }
