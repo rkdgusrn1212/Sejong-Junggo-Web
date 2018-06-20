@@ -64,11 +64,11 @@ module.exports = function(app){
       res.render('search.html',{login:true, user:req.session.passport.user, page:'search', query:req.query});
     }
   });
-  app.get('/post',(req, res)=>{
+  app.get('/post/:id',(req, res)=>{
     if(req.session.passport==null||req.session.passport.user==null){
-        res.render('post.html',{login:false, page:'post'});
+        res.render('post.html',{login:false, page:'post', id:req.params.id, user:{auth_id:null}});
     }else{
-      res.render('post.html',{login:true, user:req.session.passport.user, page:'post'});
+      res.render('post.html',{login:true, user:req.session.passport.user, page:'post', id:req.params.id});
     }
   });
   app.get('/my_items',(req, res)=>{

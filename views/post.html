@@ -11,47 +11,30 @@
           <table>
             <tr>
               <td class="infoID">상품이름: </td>
-              <td>아이패드</td>
+              <td id="name"></td>
             </tr>
             <tr>
               <td class="infoID">카테고리: </td>
-              <td>디지털/가전</td>
+              <td id="category_holder"></td>
             </tr>
             <tr>
               <td class="infoID">거래방식: </td>
-              <td>직거래 : 서울에서만 가능</td>
-            </tr>
-            <tr>
-              <td class="infoID">연락처: </td>
-              <td>010-0000-0000</td>
+              <td id="trade"></td>
             </tr>
           </table>
         </div>
 
         <div id="price">
-          가격: <h4>499900원</h4> <i>시세가(455000원)</i>
+          가격: <h4 id="price_i">499900원</h4> <i>시세가(455000원)</i>
         </div>
         <button id="buyButton" type="button" name="buyButton">구매하기</button>
 
 
         <div id="productIMGs" onwheel="scrollControl(event)">
-          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="http://files.idg.co.kr/itworld/image/2015/09/ipad-mini-4-gold-100613749-medium.png">
-          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="http://files.idg.co.kr/itworld/image/2015/09/ipad-mini-4-gold-100613749-medium.png">
-          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="http://files.idg.co.kr/itworld/image/2015/09/ipad-mini-4-gold-100613749-medium.png">
-          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="http://files.idg.co.kr/itworld/image/2015/09/ipad-mini-4-gold-100613749-medium.png">
-          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="http://files.idg.co.kr/itworld/image/2015/09/ipad-mini-4-gold-100613749-medium.png">
-          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="http://files.idg.co.kr/itworld/image/2015/09/ipad-mini-4-gold-100613749-medium.png">
-          <img onclick="gotoLeader(this.src)" ondblclick="newIMG(this.src)" src="http://files.idg.co.kr/itworld/image/2015/09/ipad-mini-4-gold-100613749-medium.png">
+          <div class="myholder"></div>
         </div>
 
-        <div id="explain">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
+        <div id="textArea">  </div>
         <div id="buttons">
           <button id="editButton" type="button" name="button">편집하기</button>
           <button id="removeButton" type="button" name="button">삭제하기</button>
@@ -61,23 +44,91 @@
     </div>
 
     <script>
+    //item의 id.
+    var itemId = <%= id %>;
+    //보는 사람
+    var userId = <%- '"'+user.auth_id+'"' %>;
+    var product = document.getElementById('productIMGs');
+    var holder = document.getElementsByClassName('myholder');
+        let itemImages = {};
+    //item 엔트리 가져오기
+    var imgCount = 0;
+    $.get('/item/'+itemId).done((data)=>{
+      item = data[0];
+      //input의 value값을 저장된 값으로 갱신.
+      $('#name').html(item.item_name);
+      $('#price_i').html(item.item_price);
+      $('#trade').html(item.item_method);
+      $('textArea').html(item["CONVERT(item_specific USING utf8)"]);
+      //item에 해당하는 image 엔트리들 가져오기
+      $.get('/item/'+itemId+'/image').done((data)=>{
+        for(let i=0; i< data.length; i++){
+          var node = document.createElement("Div");
+          node.className="myholder";
+          product.appendChild(node);
+          itemImages[data[i].image_id] = data[i];
+            //이미지를 만듬
+          var img = new Image();
+          img.src = data[i].thumb_micro_url;
+          img.height = 60;
+          img.width = 90;
+          img.id = data[i].image_id;
+          //이미지를 클릭할때 발생되는 이벤트 생성
+          img.addEventListener('click',changeLeaderIMG);
+
+             //이미지를 holder에 붙임
+          holder[imgCount].innerHTML = '';
+          holder[imgCount].appendChild(img);
+          imgCount = imgCount+1;
+        }
+        //정해진 메인 이미지가 있을시 매인 이미지도 보여주기
+        if(item.item_main_image!=null){
+          var Leaderholder = document.getElementById('leaderIMGHolder');
+          //메인 이미지 홀더에 클릭한 이미지의 id를 받아와서 새로 만든 이미지 태크의 id로 지정하고 해당하는 이미지를 소스로 설정.
+          var img = new Image();
+          img.id=item.item_main_image;
+          img.src = itemImages[item.item_main_image].thumb_url;
+          img.height = 220;
+          img.width = 330;
+          Leaderholder.innerHTML = '';
+          //이미지 태그를 지정한 곳에 붙임
+          Leaderholder.appendChild(img);
+
+        }
+      }).fail(()=>{
+        alert("상품 이미지 불러오기 실패");
+        window.location.replace('/');
+      });
+      //item의 카테고리들 불러오기
+      $.get("/item/"+itemId+"/category").done((result)=>{
+        $('#category_holder').empty();
+        for(let i =0; i<result.length;i++){
+          $('#category_holder').append($('<button type="button" id="category-'+result[i].category+'">'+result[i].category+'</button>'));
+        }
+      }).fail(()=>{
+        alert("상품 카테고리 가져오기 실패");
+      });
+    }).fail(()=>{
+      alert("상품 데이터 불러오기 실패");
+      window.location.replace('/');
+    });
+
     function scrollControl(event) {
       var xpos = event.deltaY;
       var itemIMGs = document.getElementById('productIMGs');
       itemIMGs.scrollLeft=itemIMGs.scrollLeft+xpos;
     }
-    function newIMG(data) {
-      var newWindow = window.open('','image','width=900,height=600');
-      newWindow.location.href=data;
-    }
-    function gotoLeader(data) {
-      var Leaderholder = document.get
+
+    function changeLeaderIMG(e) {
       var Leaderholder = document.getElementById('leaderIMGHolder');
-      var img=new Image();
-      img.src=data;
+      //메인 이미지 홀더에 클릭한 이미지의 id를 받아와서 새로 만든 이미지 태크의 id로 지정하고 해당하는 이미지를 소스로 설정.
+      var img = new Image();
+      img.id=e.target.id;
+      img.src = itemImages[img.id].thumb_url;
       img.height = 220;
       img.width = 330;
       Leaderholder.innerHTML = '';
+      //이미지 태그를 지정한 곳에 붙임
       Leaderholder.appendChild(img);
     }
     </script>
