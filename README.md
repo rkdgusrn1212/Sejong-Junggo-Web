@@ -28,3 +28,4 @@
 9. python 3.xx 버전 설치
 10. python selenium 라이브러리 설치.
 11. mysql서버를 켜고, node server.js로 서버 시작.
+ 
