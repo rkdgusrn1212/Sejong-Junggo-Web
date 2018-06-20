@@ -34,7 +34,7 @@
           <div class="myholder"></div>
         </div>
 
-        <div id="textArea">  </div>
+        <div id="explain"></div>
         <div id="buttons">
           <button id="editButton" type="button" name="button">편집하기</button>
           <button id="removeButton" type="button" name="button">삭제하기</button>
@@ -59,7 +59,7 @@
       $('#name').html(item.item_name);
       $('#price_i').html(item.item_price);
       $('#trade').html(item.item_method);
-      $('textArea').html(item["CONVERT(item_specific USING utf8)"]);
+      $('#explain').html(item["CONVERT(item_specific USING utf8)"]);
       //item에 해당하는 image 엔트리들 가져오기
       $.get('/item/'+itemId+'/image').done((data)=>{
         for(let i=0; i< data.length; i++){
