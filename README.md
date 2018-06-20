@@ -1,6 +1,7 @@
 # Sejong-Junggo-Web
 
 사용법.
+윈도우 10 
 1. GraphicMagic을 설치. -> 커멘트창에서 gm입력이 작동하는지 확인.
 2. MySQL 서버 설치, 8.0 기준으로 작성. 설치시 비밀번호는 5.x 이하의 legacy방식으로 설정.
 3. sejong-junggo-db.sql파일을 mysql 서버에 원하는 이름으로 import한다.
